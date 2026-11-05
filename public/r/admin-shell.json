@@ -54,7 +54,7 @@
     },
     {
       "path": "src/registry/admin/admin-shell/admin-layout.tsx",
-      "content": "import * as React from \"react\"\n\nimport { SidebarInset, SidebarProvider } from \"@/components/ui/sidebar\"\nimport { AppSidebar } from \"@/components/admin/admin-shell/app-sidebar\"\nimport { AdminHeader } from \"@/components/admin/admin-shell/admin-header\"\n\nexport interface AdminLayoutProps {\n  children: React.ReactNode\n}\n\nexport default function AdminLayout({ children }: AdminLayoutProps) {\n  return (\n    <SidebarProvider>\n      <AppSidebar />\n      <SidebarInset>\n        <AdminHeader />\n        <main className=\"flex-1 p-6 space-y-6\">{children}</main>\n      </SidebarInset>\n    </SidebarProvider>\n  )\n}\n\nexport { AdminLayout }\n",
+      "content": "import * as React from \"react\"\n\nimport { SidebarInset, SidebarProvider } from \"@/components/ui/sidebar\"\nimport { AppSidebar } from \"@/components/admin/admin-shell/app-sidebar\"\nimport { AdminHeader } from \"@/components/admin/admin-shell/admin-header\"\n\nexport interface AdminLayoutProps {\n  children: React.ReactNode\n}\n\nexport default function AdminLayout({ children }: AdminLayoutProps) {\n  return (\n    <SidebarProvider className=\"font-sans antialiased\">\n      <AppSidebar />\n      <SidebarInset className=\"font-sans\">\n        <AdminHeader />\n        <main className=\"flex-1 p-6 space-y-6\">{children}</main>\n      </SidebarInset>\n    </SidebarProvider>\n  )\n}\n\nexport { AdminLayout }\n",
       "type": "registry:component",
       "target": "app/(admin)/admin/layout.tsx"
     }

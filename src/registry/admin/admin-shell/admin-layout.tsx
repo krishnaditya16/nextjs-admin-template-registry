@@ -10,9 +10,9 @@ export interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   return (
-    <SidebarProvider>
+    <SidebarProvider className="font-sans antialiased">
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="font-sans">
         <AdminHeader />
         <main className="flex-1 p-6 space-y-6">{children}</main>
       </SidebarInset>

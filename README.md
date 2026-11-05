@@ -4,14 +4,16 @@ An enterprise-grade, accessible admin template and custom [shadcn/ui](https://ui
 
 Designed as a reference architecture and reusable design system for fullstack applications and bootcamp students.
 
+🔗 **GitHub Repository**: [krishnaditya16/nextjs-admin-template-registry](https://github.com/krishnaditya16/nextjs-admin-template-registry)
+
 ---
 
 ## Features
 
 - **Custom shadcn/ui Registry**: Distribute reusable blocks directly via `npx shadcn add <url>`.
-- **Admin Shell**: Responsive sidebar with collapsible states, typed menu grouping (`defaultNavGroups`), image-first app logo, auto-generated breadcrumbs, and sticky header.
+- **Admin Shell**: Responsive sidebar with collapsible states, typed menu grouping (`defaultNavGroups`), image-first app logo, auto-generated breadcrumbs, and sticky header with dark mode toggle.
 - **TanStack Table Engine**: Type-safe data table with multi-column sorting, text search filtering, column visibility toggles, and responsive pagination.
-- **CRUD Primitives**: Safe delete confirmation dialogs, modal sheets, and drag-and-drop local file upload dropzones with real-time previews.
+- **CRUD Primitives**: Safe delete & discard confirmation dialogs, modal sheets, and drag-and-drop local file upload dropzones with real-time previews.
 - **Authentication Pages**: Clean, minimal card-based login and register pages inspired by official shadcn `login-01` patterns.
 - **Settings Hub**: Tabbed settings center for Profile info, Security (password change), and Notification preferences using official shadcn checkboxes.
 - **Dark Mode Support**: Seamless light/dark/system theme switching powered by `next-themes` and Tailwind CSS v4 OKLCH color variables.
@@ -19,13 +21,13 @@ Designed as a reference architecture and reusable design system for fullstack ap
 
 ---
 
-## Quick Start
+## Quick Start (Running This Template)
 
-### 1. Install Dependencies
+### 1. Clone & Install Dependencies
 ```bash
+git clone https://github.com/krishnaditya16/nextjs-admin-template-registry.git
+cd nextjs-admin-template-registry
 npm install
-# or
-pnpm install
 ```
 
 ### 2. Start the Development Server
@@ -33,39 +35,98 @@ pnpm install
 npm run dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) to view the running admin dashboard.
+Visit [http://localhost:3000](http://localhost:3000) to view the running admin portal.
 
 ---
 
-## Consuming the Registry Blocks
+## 📦 Adding to an Existing or New Project
 
-Any developer or student can install these blocks directly into their own Next.js projects using the `shadcn` CLI:
+You can add these components to **any Next.js project** directly from this public GitHub repository without cloning or configuring custom registry domains.
 
-### 1. Admin Shell
-Installs the full layout engine: collapsible sidebar, sticky header, breadcrumbs, stat cards, and theme toggle.
+### Prerequisites in Your Project
+1. **Next.js 14, 15, or 16** (App Router)
+2. **Tailwind CSS** (v3 or v4)
+3. **shadcn/ui initialized**:
+   ```bash
+   npx shadcn@latest init
+   ```
+
+---
+
+### 🚀 Install All Blocks at Once (Single Command)
+
+Run this single command in your project terminal to install the entire admin suite (`admin-shell`, `data-table`, `auth-guard`, and `crud-primitives`) with all npm dependencies and shadcn base components:
+
 ```bash
-npx shadcn add http://localhost:3000/r/admin-shell.json
+npx shadcn add \
+  https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/admin-shell.json \
+  https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/data-table.json \
+  https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/auth-guard.json \
+  https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/crud-primitives.json
 ```
 
-### 2. Data Table Engine
-Installs the complete TanStack Table v8 suite: sorting headers, toolbar search, column toggles, and pagination controls.
+*(On Windows PowerShell, use backticks `` ` `` or run on a single line without linebreaks)*
+
+---
+
+### 🤖 AI Assistant Prompt (Copy & Paste to your AI)
+
+If you are using Cursor, Claude, GitHub Copilot, or Antigravity on a new or existing project, simply paste this prompt:
+
+> "Please set up the admin dashboard in this Next.js project using the registry at `https://github.com/krishnaditya16/nextjs-admin-template-registry`.
+> 
+> **Routing Structure & Safeguards**:
+> - Auth Routes: Place dedicated auth screens at `/login` and `/register` (using `LoginForm` and `RegisterForm`).
+> - Admin Routes: Prefix all admin pages with `/admin` (layout at `app/admin/layout.tsx`, dashboard at `app/admin/page.tsx`, catalog at `app/admin/products/page.tsx`, settings at `app/admin/settings/page.tsx`).
+> - Sidebar Links: Configure menu items in `AppSidebar` with the `/admin` prefix.
+> - Safeguard: If this is an existing project, do NOT modify, overwrite, or redesign any existing pages, public routes, or global design styles outside `/admin`, `/login`, and `/register`.
+> 
+> 1. Run `npx shadcn@latest init -y` if not already initialized.
+> 2. Run the all-in-one command:
+>    `npx shadcn add https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/admin-shell.json https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/data-table.json https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/auth-guard.json https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/crud-primitives.json`
+> 3. In root `layout.tsx`, ensure `font-sans` is on `<body>` (e.g. `<body className={`${geistSans.variable} font-sans antialiased`}>`) and wrap with `ThemeProvider` (`next-themes`, `attribute="class"`). In `globals.css`, map `--font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;` and `--font-heading: var(--font-sans);`.
+> 4. Create standalone auth pages `app/login/page.tsx` and `app/register/page.tsx`.
+> 5. Create admin layout `app/admin/layout.tsx` using `SidebarProvider`, `AppSidebar`, and `AdminHeader`."
+
+💡 *For specialized prompts (Full Admin, Data Table only, or CRUD Modals only), see [`PROMPT.md`](./PROMPT.md).*
+
+---
+
+### Or Install Individual Blocks Separately
+
+If you only need specific parts of the design system:
+
 ```bash
-npx shadcn add http://localhost:3000/r/data-table.json
+# 1. Admin Shell (Sidebar, Header, Breadcrumbs, Stat Cards, Theme Toggle)
+npx shadcn add https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/admin-shell.json
+
+# 2. Data Table Engine (TanStack Table v8, Sorting, Toolbar, Pagination)
+npx shadcn add https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/data-table.json
+
+# 3. Auth Guard (Login & Register forms, User Avatar dropdown)
+npx shadcn add https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/auth-guard.json
+
+# 4. CRUD Primitives (Delete Dialog, Discard Dialog, Form Modal, Image Upload)
+npx shadcn add https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/crud-primitives.json
 ```
 
-### 3. Auth Guard UI
-Installs minimal credentials login form, registration form, and user avatar navigation menu.
-```bash
-npx shadcn add http://localhost:3000/r/auth-guard.json
-```
+---
 
-### 4. CRUD Primitives
-Installs standardized delete & discard confirmation dialogs, form modal wrappers, and drag-and-drop image uploaders.
-```bash
-npx shadcn add http://localhost:3000/r/crud-primitives.json
-```
+## 📚 Registry Blocks Manifest
 
-> **Note**: In production, replace `http://localhost:3000` with your deployed domain (e.g. `https://my-registry.vercel.app/r/admin-shell.json`).
+| Block Name | Target In Your App | Description | GitHub Source | Registry Manifest |
+| :--- | :--- | :--- | :--- | :--- |
+| **`admin-shell`** | `components/admin/admin-shell/` | Responsive collapsible sidebar, sticky header with breadcrumbs, KPI stat cards, and dark mode toggle. | [Source Code](https://github.com/krishnaditya16/nextjs-admin-template-registry/tree/main/src/registry/admin/admin-shell) | [`admin-shell.json`](https://github.com/krishnaditya16/nextjs-admin-template-registry/blob/main/public/r/admin-shell.json) |
+| **`data-table`** | `components/admin/data-table/` | Generic TanStack Table v8 engine with sorting, text search filtering, column visibility toggles, and pagination. | [Source Code](https://github.com/krishnaditya16/nextjs-admin-template-registry/tree/main/src/registry/admin/data-table) | [`data-table.json`](https://github.com/krishnaditya16/nextjs-admin-template-registry/blob/main/public/r/data-table.json) |
+| **`auth-guard`** | `components/admin/auth-guard/` | Minimal flat card login and registration forms (shadcn `login-01`), plus user avatar dropdown. | [Source Code](https://github.com/krishnaditya16/nextjs-admin-template-registry/tree/main/src/registry/admin/auth-guard) | [`auth-guard.json`](https://github.com/krishnaditya16/nextjs-admin-template-registry/blob/main/public/r/auth-guard.json) |
+| **`crud-primitives`** | `components/admin/crud-primitives/` | Delete confirmation dialog, discard changes confirmation dialog, modal sheets, and drag-and-drop image upload. | [Source Code](https://github.com/krishnaditya16/nextjs-admin-template-registry/tree/main/src/registry/admin/crud-primitives) | [`crud-primitives.json`](https://github.com/krishnaditya16/nextjs-admin-template-registry/blob/main/public/r/crud-primitives.json) |
+
+### How It Works Under the Hood
+When you run `npx shadcn add`:
+1. The CLI fetches the corresponding `.json` manifest from the registry.
+2. It automatically installs any **npm packages** defined in `dependencies` (e.g. `@tanstack/react-table`, `lucide-react`, `next-themes`).
+3. It automatically pulls any **base shadcn components** listed in `registryDependencies` (e.g. `button`, `card`, `dialog`, `sidebar`, `table`).
+4. It copies the source components directly into your project's `components/admin/...` directory, so you own 100% of the code.
 
 ---
 
@@ -75,9 +136,9 @@ npx shadcn add http://localhost:3000/r/crud-primitives.json
 | :--- | :--- |
 | **`/`** | Executive Dashboard featuring KPI stat cards, latest sales table, and quick navigation. |
 | **`/products`** | Product Catalog Data Table with live filtering, status badges, pagination, and row actions. |
-| **`/products/new`** | Add Product form featuring a 2-column layout (matching shadcn `dashboard-07`) and image dropzone. |
-| **`/products/[id]/edit`** | Edit Product form with pre-populated records. |
-| **`/settings`** | Unified Settings Hub with Profile, Security (password reset), and Notifications tabs. |
+| **`/products/new`** | Add Product form featuring a 2-column layout (matching shadcn `dashboard-07`), image dropzone, and discard confirmation. |
+| **`/products/[id]/edit`** | Edit Product form with pre-populated records and discard guard. |
+| **`/settings`** | Unified Settings Hub with Profile, Security (password reset), and Notifications tabs (shadcn Checkboxes). |
 | **`/login`** | Minimal credentials login screen. |
 | **`/register`** | Account creation screen with full validation states. |
 | **`/placeholder`** | Reusable empty-state screen for modules currently under development. |
