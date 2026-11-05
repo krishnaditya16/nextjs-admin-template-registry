@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"],
+      "@/components/admin/*": ["./src/registry/admin/*"]
     }
   },
   "include": [

@@ -1,0 +1,166 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "admin-ds",
+  "homepage": "http://localhost:3000",
+  "items": [
+    {
+      "name": "admin-shell",
+      "type": "registry:block",
+      "title": "Admin Shell",
+      "description": "Dashboard shell layout with sidebar, header, breadcrumbs, page header, and stat cards.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "sidebar",
+        "breadcrumb",
+        "separator",
+        "badge",
+        "card",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/registry/admin/admin-shell/app-sidebar.tsx",
+          "type": "registry:component",
+          "target": "components/admin/admin-shell/app-sidebar.tsx"
+        },
+        {
+          "path": "src/registry/admin/admin-shell/admin-header.tsx",
+          "type": "registry:component",
+          "target": "components/admin/admin-shell/admin-header.tsx"
+        },
+        {
+          "path": "src/registry/admin/admin-shell/page-header.tsx",
+          "type": "registry:component",
+          "target": "components/admin/admin-shell/page-header.tsx"
+        },
+        {
+          "path": "src/registry/admin/admin-shell/stat-card.tsx",
+          "type": "registry:component",
+          "target": "components/admin/admin-shell/stat-card.tsx"
+        },
+        {
+          "path": "src/registry/admin/admin-shell/app-logo.tsx",
+          "type": "registry:component",
+          "target": "components/admin/admin-shell/app-logo.tsx"
+        },
+        {
+          "path": "src/registry/admin/admin-shell/admin-layout.tsx",
+          "type": "registry:component",
+          "target": "app/(admin)/admin/layout.tsx"
+        }
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:block",
+      "title": "Data Table Engine",
+      "description": "Generic TanStack table engine with sorting, filtering, visibility, pagination, and row actions.",
+      "dependencies": [
+        "@tanstack/react-table",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "table",
+        "button",
+        "input",
+        "dropdown-menu",
+        "select"
+      ],
+      "files": [
+        {
+          "path": "src/registry/admin/data-table/data-table.tsx",
+          "type": "registry:component",
+          "target": "components/admin/data-table/data-table.tsx"
+        },
+        {
+          "path": "src/registry/admin/data-table/data-table-toolbar.tsx",
+          "type": "registry:component",
+          "target": "components/admin/data-table/data-table-toolbar.tsx"
+        },
+        {
+          "path": "src/registry/admin/data-table/data-table-column-header.tsx",
+          "type": "registry:component",
+          "target": "components/admin/data-table/data-table-column-header.tsx"
+        },
+        {
+          "path": "src/registry/admin/data-table/data-table-pagination.tsx",
+          "type": "registry:component",
+          "target": "components/admin/data-table/data-table-pagination.tsx"
+        },
+        {
+          "path": "src/registry/admin/data-table/data-table-row-actions.tsx",
+          "type": "registry:component",
+          "target": "components/admin/data-table/data-table-row-actions.tsx"
+        }
+      ]
+    },
+    {
+      "name": "auth-guard",
+      "type": "registry:block",
+      "title": "Auth Guard UI",
+      "description": "Credentials login form and user profile navigation dropdown.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "card",
+        "input",
+        "label",
+        "button",
+        "dropdown-menu",
+        "avatar",
+        "badge"
+      ],
+      "files": [
+        {
+          "path": "src/registry/admin/auth-guard/login-form.tsx",
+          "type": "registry:component",
+          "target": "components/admin/auth-guard/login-form.tsx"
+        },
+        {
+          "path": "src/registry/admin/auth-guard/register-form.tsx",
+          "type": "registry:component",
+          "target": "components/admin/auth-guard/register-form.tsx"
+        },
+        {
+          "path": "src/registry/admin/auth-guard/user-nav.tsx",
+          "type": "registry:component",
+          "target": "components/admin/auth-guard/user-nav.tsx"
+        }
+      ]
+    },
+    {
+      "name": "crud-primitives",
+      "type": "registry:block",
+      "title": "CRUD Primitives",
+      "description": "Standardized form modal, delete confirmation dialog, and local image upload component.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "alert-dialog",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/registry/admin/crud-primitives/form-modal.tsx",
+          "type": "registry:component",
+          "target": "components/admin/crud-primitives/form-modal.tsx"
+        },
+        {
+          "path": "src/registry/admin/crud-primitives/confirm-delete-dialog.tsx",
+          "type": "registry:component",
+          "target": "components/admin/crud-primitives/confirm-delete-dialog.tsx"
+        },
+        {
+          "path": "src/registry/admin/crud-primitives/local-image-upload.tsx",
+          "type": "registry:component",
+          "target": "components/admin/crud-primitives/local-image-upload.tsx"
+        }
+      ]
+    }
+  ]
+}
