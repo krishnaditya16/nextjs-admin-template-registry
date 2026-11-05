@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 import { ChevronLeft, Loader2 } from "lucide-react"
 import { toast } from "sonner"
@@ -31,6 +30,7 @@ import { AppSidebar } from "@/components/admin/admin-shell/app-sidebar"
 import { AdminHeader } from "@/components/admin/admin-shell/admin-header"
 import { UserNav } from "@/components/admin/auth-guard/user-nav"
 import { LocalImageUpload } from "@/components/admin/crud-primitives/local-image-upload"
+import { ConfirmDiscardDialog } from "@/components/admin/crud-primitives/confirm-discard-dialog"
 import { initialProducts, type Product } from "@/lib/products-data"
 
 function EditProductContent() {
@@ -53,6 +53,12 @@ function EditProductContent() {
   }, [productId])
 
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const [isDiscardOpen, setIsDiscardOpen] = React.useState(false)
+
+  const handleDiscard = () => {
+    toast.info("Changes discarded")
+    router.push("/products")
+  }
 
   // Form State
   const [name, setName] = React.useState(existingProduct.name)
@@ -97,11 +103,11 @@ function EditProductContent() {
             {/* Header Action Bar matching shadcn dashboard-07 */}
             <div className="flex items-center gap-4">
               <Button
+                type="button"
                 variant="outline"
                 size="icon"
                 className="size-7"
-                render={<Link href="/" />}
-                nativeButton={false}
+                onClick={() => setIsDiscardOpen(true)}
               >
                 <ChevronLeft className="size-4" />
                 <span className="sr-only">Back</span>
@@ -114,10 +120,10 @@ function EditProductContent() {
               </Badge>
               <div className="hidden items-center gap-2 md:ml-auto md:flex">
                 <Button
+                  type="button"
                   variant="outline"
                   size="sm"
-                  render={<Link href="/" />}
-                  nativeButton={false}
+                  onClick={() => setIsDiscardOpen(true)}
                   disabled={isSubmitting}
                 >
                   Discard
@@ -297,10 +303,11 @@ function EditProductContent() {
             {/* Mobile Actions Bar */}
             <div className="flex items-center justify-center gap-2 md:hidden">
               <Button
+                type="button"
                 variant="outline"
                 size="sm"
-                render={<Link href="/" />}
-                nativeButton={false}
+                onClick={() => setIsDiscardOpen(true)}
+                disabled={isSubmitting}
               >
                 Discard
               </Button>
@@ -309,6 +316,12 @@ function EditProductContent() {
               </Button>
             </div>
           </form>
+
+          <ConfirmDiscardDialog
+            open={isDiscardOpen}
+            onOpenChange={setIsDiscardOpen}
+            onConfirm={handleDiscard}
+          />
         </main>
       </SidebarInset>
     </SidebarProvider>

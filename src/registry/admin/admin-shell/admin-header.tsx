@@ -8,6 +8,7 @@ import { Bell } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { ThemeToggle } from "./theme-toggle"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -28,6 +29,7 @@ export interface AdminHeaderProps extends React.HTMLAttributes<HTMLElement> {
   userNav?: React.ReactNode
   notificationsCount?: number
   onNotificationsClick?: () => void
+  showThemeToggle?: boolean
 }
 
 function generateDefaultBreadcrumbs(pathname: string): AdminBreadcrumbItem[] {
@@ -58,6 +60,7 @@ export function AdminHeader({
   userNav,
   notificationsCount = 2,
   onNotificationsClick,
+  showThemeToggle = true,
   className,
   children,
   ...props
@@ -99,10 +102,12 @@ export function AdminHeader({
         </Breadcrumb>
       </div>
 
-      {/* Right: Actions, notifications, and userNav */}
-      <div className="flex items-center gap-3">
+      {/* Right: Actions, theme toggle, notifications, and userNav */}
+      <div className="flex items-center gap-2">
         {actions}
         {children}
+
+        {showThemeToggle && <ThemeToggle />}
 
         <Button
           variant="ghost"

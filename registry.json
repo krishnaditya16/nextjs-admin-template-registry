@@ -9,7 +9,8 @@
       "title": "Admin Shell",
       "description": "Dashboard shell layout with sidebar, header, breadcrumbs, page header, and stat cards.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react",
+        "next-themes"
       ],
       "registryDependencies": [
         "sidebar",
@@ -29,6 +30,11 @@
           "path": "src/registry/admin/admin-shell/admin-header.tsx",
           "type": "registry:component",
           "target": "components/admin/admin-shell/admin-header.tsx"
+        },
+        {
+          "path": "src/registry/admin/admin-shell/theme-toggle.tsx",
+          "type": "registry:component",
+          "target": "components/admin/admin-shell/theme-toggle.tsx"
         },
         {
           "path": "src/registry/admin/admin-shell/page-header.tsx",
@@ -154,6 +160,11 @@
           "path": "src/registry/admin/crud-primitives/confirm-delete-dialog.tsx",
           "type": "registry:component",
           "target": "components/admin/crud-primitives/confirm-delete-dialog.tsx"
+        },
+        {
+          "path": "src/registry/admin/crud-primitives/confirm-discard-dialog.tsx",
+          "type": "registry:component",
+          "target": "components/admin/crud-primitives/confirm-discard-dialog.tsx"
         },
         {
           "path": "src/registry/admin/crud-primitives/local-image-upload.tsx",
