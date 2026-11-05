@@ -56,6 +56,16 @@ Follow these steps in order:
 6. CREATE ADMIN PAGES:
    - `app/admin/page.tsx` — Executive Dashboard at `/admin` using `PageHeader`, `StatCard` (from `@/components/admin/admin-shell/stat-card`), and a summary data table.
    - `app/admin/products/page.tsx` — Product catalog using `DataTable`.
+     - In `PageHeader`, the "+ Add Product" button MUST be a `<Link href="/admin/products/new">` (NOT a modal dialog) styled with `buttonVariants({ size: "sm" })`.
+     - Wire up row actions to `ConfirmDeleteDialog` for delete confirmations.
+     - Wrap the page export in `<React.Suspense fallback={<div className="min-h-screen bg-background" />}>`.
+   - `app/admin/products/new/page.tsx` — Dedicated 2-column product creation page with `LocalImageUpload` and `ConfirmDiscardDialog`.
+   - `app/admin/settings/page.tsx` — Settings hub with Profile, Security, and Notifications tabs (using shadcn `Checkbox`).
+
+7. PREVENT NEXT.JS 16 PRERENDER ERRORS:
+   - In mock product data, use static strings and numbers (e.g. `id: "PRD-101"`, `createdAt: "2025-01-15T00:00:00Z"`).
+   - NEVER call `Date.now()`, `new Date()`, or `Math.random()` inline inside mock data or table column render loops, as Next.js 16 flags this as "unstable value Date.now() in a Client Component" during prerendering.
+   - Always wrap client table pages in `<React.Suspense>`.
 
 Verify the setup by running `npm run build` to ensure zero TypeScript or lint errors.
 ```
@@ -103,6 +113,8 @@ NOTE: Do not alter any existing layouts, global CSS, or existing page designs.
 When finishing any of the above setups, make sure:
 - [ ] Auth pages are accessible at `/login` and `/register`.
 - [ ] Admin portal is accessible under the `/admin` prefix (e.g. `/admin`, `/admin/products`, `/admin/settings`).
+- [ ] "+ Add Product" button on `/admin/products` navigates to `/admin/products/new` page (NOT a modal dialog).
+- [ ] No inline `Date.now()`, `new Date()`, or `Math.random()` in mock data; dynamic pages wrapped in `<React.Suspense>`.
 - [ ] Existing non-admin routes, layouts, and public pages remain completely untouched.
 - [ ] `components/admin/` folder contains the installed registry components.
 - [ ] `font-sans` is active and headings/cards do NOT render in Times New Roman serif.

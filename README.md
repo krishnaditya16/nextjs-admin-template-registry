@@ -86,7 +86,8 @@ If you are using Cursor, Claude, GitHub Copilot, or Antigravity on a new or exis
 >    `npx shadcn add https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/admin-shell.json https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/data-table.json https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/auth-guard.json https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/crud-primitives.json`
 > 3. In root `layout.tsx`, ensure `font-sans` is on `<body>` (e.g. `<body className={`${geistSans.variable} font-sans antialiased`}>`) and wrap with `ThemeProvider` (`next-themes`, `attribute="class"`). In `globals.css`, map `--font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;` and `--font-heading: var(--font-sans);`.
 > 4. Create standalone auth pages `app/login/page.tsx` and `app/register/page.tsx`.
-> 5. Create admin layout `app/admin/layout.tsx` using `SidebarProvider`, `AppSidebar`, and `AdminHeader`."
+> 5. Create admin layout `app/admin/layout.tsx` using `SidebarProvider`, `AppSidebar`, and `AdminHeader`.
+> 6. On `app/admin/products/page.tsx`, ensure '+ Add Product' links to page `/admin/products/new` (not a modal). Use static strings for mock data (never inline `Date.now()`) and wrap dynamic pages in `<React.Suspense>`."
 
 💡 *For specialized prompts (Full Admin, Data Table only, or CRUD Modals only), see [`PROMPT.md`](./PROMPT.md).*
 
