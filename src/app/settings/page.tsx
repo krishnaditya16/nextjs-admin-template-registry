@@ -16,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
@@ -328,52 +329,49 @@ function SettingsContent() {
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between border-b pb-3">
                     <div className="space-y-0.5">
-                      <div className="text-sm font-medium text-foreground">
+                      <Label htmlFor="stock-alerts" className="text-sm font-medium text-foreground cursor-pointer">
                         Inventory Threshold Alerts
-                      </div>
+                      </Label>
                       <div className="text-xs text-muted-foreground">
                         Receive instant warnings when products hit low stock or sell out.
                       </div>
                     </div>
-                    <input
-                      type="checkbox"
+                    <Checkbox
+                      id="stock-alerts"
                       checked={stockAlerts}
-                      onChange={(e) => setStockAlerts(e.target.checked)}
-                      className="size-4 rounded border-gray-300 text-primary focus:ring-primary"
+                      onCheckedChange={(checked) => setStockAlerts(Boolean(checked))}
                     />
                   </div>
 
                   <div className="flex items-center justify-between border-b pb-3">
                     <div className="space-y-0.5">
-                      <div className="text-sm font-medium text-foreground">
+                      <Label htmlFor="email-alerts" className="text-sm font-medium text-foreground cursor-pointer">
                         Order & Revenue Summaries
-                      </div>
+                      </Label>
                       <div className="text-xs text-muted-foreground">
                         Daily digest of completed purchases and gross revenue.
                       </div>
                     </div>
-                    <input
-                      type="checkbox"
+                    <Checkbox
+                      id="email-alerts"
                       checked={emailAlerts}
-                      onChange={(e) => setEmailAlerts(e.target.checked)}
-                      className="size-4 rounded border-gray-300 text-primary focus:ring-primary"
+                      onCheckedChange={(checked) => setEmailAlerts(Boolean(checked))}
                     />
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <div className="text-sm font-medium text-foreground">
+                      <Label htmlFor="security-emails" className="text-sm font-medium text-foreground cursor-pointer">
                         Security Alerts
-                      </div>
+                      </Label>
                       <div className="text-xs text-muted-foreground">
                         Notify upon logins from unrecognized IP addresses or devices.
                       </div>
                     </div>
-                    <input
-                      type="checkbox"
+                    <Checkbox
+                      id="security-emails"
                       checked={securityEmails}
-                      onChange={(e) => setSecurityEmails(e.target.checked)}
-                      className="size-4 rounded border-gray-300 text-primary focus:ring-primary"
+                      onCheckedChange={(checked) => setSecurityEmails(Boolean(checked))}
                     />
                   </div>
                 </CardContent>

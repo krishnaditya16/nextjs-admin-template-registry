@@ -61,7 +61,7 @@ export function ConfirmDeleteDialog({
             {description}
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter className="gap-2 sm:gap-0">
+        <AlertDialogFooter className="gap-2 sm:gap-2">
           <Button
             type="button"
             variant="outline"
@@ -75,11 +75,12 @@ export function ConfirmDeleteDialog({
             variant="destructive"
             onClick={handleConfirm}
             disabled={loading}
+            className="gap-1.5"
           >
             {loading ? (
-              <Loader2 className="mr-2 size-4 animate-spin" />
+              <Loader2 className="size-4 animate-spin" />
             ) : (
-              <Trash2 className="mr-2 size-4" />
+              <Trash2 className="size-4" />
             )}
             {confirmText}
           </Button>
