@@ -37,7 +37,7 @@ export default function RegisterPage() {
     }
 
     toast.success(`Account created for ${data.name}! Welcome to Admin Portal.`)
-    router.push("/")
+    router.push("/admin")
   }
 
   return (

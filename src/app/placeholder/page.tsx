@@ -31,7 +31,7 @@ function PlaceholderContent() {
       <SidebarInset>
         <AdminHeader
           breadcrumbs={[
-            { label: "Dashboard", href: "/" },
+            { label: "Dashboard", href: "/admin" },
             { label: "Placeholder Menu" },
           ]}
           userNav={
@@ -71,20 +71,20 @@ function PlaceholderContent() {
                   </code>{" "}
                   and create corresponding folders in{" "}
                   <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-                    src/app/
+                    src/app/admin/
                   </code>
                   .
                 </p>
                 <div className="flex gap-2">
                   <Link
-                    href="/products"
+                    href="/admin/products"
                     className={cn(buttonVariants({ size: "sm" }), "gap-1.5")}
                   >
                     <Package className="size-3.5" />
                     View Products
                   </Link>
                   <Link
-                    href="/products/new"
+                    href="/admin/products/new"
                     className={cn(buttonVariants({ variant: "outline", size: "sm" }), "gap-1.5")}
                   >
                     <PlusCircle className="size-3.5" />
@@ -115,7 +115,7 @@ function PlaceholderContent() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => router.push("/")}
+                  onClick={() => router.push("/admin")}
                   className="gap-1.5"
                 >
                   Return to Dashboard

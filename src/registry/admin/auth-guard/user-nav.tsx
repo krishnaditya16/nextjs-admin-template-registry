@@ -55,7 +55,7 @@ export function UserNav({
     if (onProfileClick) {
       onProfileClick()
     } else {
-      router.push("/settings?tab=profile")
+      router.push("/admin/settings?tab=profile")
     }
   }
 
@@ -63,7 +63,7 @@ export function UserNav({
     if (onSettingsClick) {
       onSettingsClick()
     } else {
-      router.push("/settings?tab=account")
+      router.push("/admin/settings?tab=account")
     }
   }
 

@@ -13,7 +13,7 @@ Designed as a reference architecture and reusable design system for fullstack ap
 - **Custom shadcn/ui Registry**: Distribute reusable blocks directly via `npx shadcn add <url>`.
 - **Admin Shell**: Responsive sidebar with collapsible states, typed menu grouping (`defaultNavGroups`), image-first app logo, auto-generated breadcrumbs, and sticky header with dark mode toggle.
 - **TanStack Table Engine**: Type-safe data table with multi-column sorting, text search filtering, column visibility toggles, and responsive pagination.
-- **CRUD Primitives**: Safe delete & discard confirmation dialogs, modal sheets, and drag-and-drop local file upload dropzones with real-time previews.
+- **CRUD Primitives**: Safe delete & discard confirmation dialogs and drag-and-drop local file upload dropzones with real-time previews.
 - **Authentication Pages**: Clean, minimal card-based login and register pages inspired by official shadcn `login-01` patterns.
 - **Settings Hub**: Tabbed settings center for Profile info, Security (password change), and Notification preferences using official shadcn checkboxes.
 - **Dark Mode Support**: Seamless light/dark/system theme switching powered by `next-themes` and Tailwind CSS v4 OKLCH color variables.
@@ -73,13 +73,17 @@ npx shadcn add \
 
 If you are using Cursor, Claude, GitHub Copilot, or Antigravity on a new or existing project, simply paste this prompt:
 
-> "Please set up the admin dashboard in this Next.js project using the registry at `https://github.com/krishnaditya16/nextjs-admin-template-registry`.
+> "Please set up an admin portal in this Next.js project using the registry from `https://github.com/krishnaditya16/nextjs-admin-template-registry`.
 > 
-> **Routing Structure & Safeguards**:
+> **Routing Structure & Architecture**:
 > - Auth Routes: Place dedicated auth screens at `/login` and `/register` (using `LoginForm` and `RegisterForm`).
-> - Admin Routes: Prefix all admin pages with `/admin` (layout at `app/admin/layout.tsx`, dashboard at `app/admin/page.tsx`, catalog at `app/admin/products/page.tsx`, settings at `app/admin/settings/page.tsx`).
+> - Admin Routes: Prefix all admin pages with `/admin` (layout at `app/admin/layout.tsx`, dashboard at `app/admin/page.tsx`, catalog at `app/admin/products/page.tsx`, new product at `app/admin/products/new/page.tsx`, edit product at `app/admin/products/[id]/edit/page.tsx`, settings at `app/admin/settings/page.tsx`).
 > - Sidebar Links: Configure menu items in `AppSidebar` with the `/admin` prefix.
-> - Safeguard: If this is an existing project, do NOT modify, overwrite, or redesign any existing pages, public routes, or global design styles outside `/admin`, `/login`, and `/register`.
+> - Safeguard: If this is an existing project, do NOT modify, overwrite, or redesign any existing pages, public routes, or global design styles outside `/admin`, `/login`, and `/register`. Do NOT create duplicate top-level `/products` folders.
+> 
+> **Page-Based CRUD & Reusable Form Pattern**:
+> - NO MODAL FORMS: Product creation and editing must be full, dedicated pages (NOT modal dialogs).
+> - Unified Form: Build a single reusable `<ProductForm />` (in `components/admin/products/product-form.tsx`) that accepts `{ mode: "create" | "edit", initialData?: Product }` used by both `new/page.tsx` and `[id]/edit/page.tsx`.
 > 
 > 1. Run `npx shadcn@latest init -y` if not already initialized.
 > 2. Run the all-in-one command:
@@ -87,9 +91,9 @@ If you are using Cursor, Claude, GitHub Copilot, or Antigravity on a new or exis
 > 3. In root `layout.tsx`, ensure `font-sans` is on `<body>` (e.g. `<body className={`${geistSans.variable} font-sans antialiased`}>`) and wrap with `ThemeProvider` (`next-themes`, `attribute="class"`). In `globals.css`, map `--font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;` and `--font-heading: var(--font-sans);`.
 > 4. Create standalone auth pages `app/login/page.tsx` and `app/register/page.tsx`.
 > 5. Create admin layout `app/admin/layout.tsx` using `SidebarProvider`, `AppSidebar`, and `AdminHeader`.
-> 6. On `app/admin/products/page.tsx`, ensure '+ Add Product' links to page `/admin/products/new` (not a modal). Use static strings for mock data (never inline `Date.now()`) and wrap dynamic pages in `<React.Suspense>`."
+> 6. On `app/admin/products/page.tsx`, ensure '+ Add Product' is a link button to `/admin/products/new` (not a modal). Use static strings for mock data (never inline `Date.now()`) and wrap dynamic pages in `<React.Suspense>`."
 
-💡 *For specialized prompts (Full Admin, Data Table only, or CRUD Modals only), see [`PROMPT.md`](./PROMPT.md).*
+💡 *For specialized prompts (Full Admin, Data Table only, or CRUD Primitives only), see [`PROMPT.md`](./PROMPT.md).*
 
 ---
 
@@ -107,7 +111,7 @@ npx shadcn add https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-tem
 # 3. Auth Guard (Login & Register forms, User Avatar dropdown)
 npx shadcn add https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/auth-guard.json
 
-# 4. CRUD Primitives (Delete Dialog, Discard Dialog, Form Modal, Image Upload)
+# 4. CRUD Primitives (Delete Dialog, Discard Dialog, Image Upload)
 npx shadcn add https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-template-registry/main/public/r/crud-primitives.json
 ```
 
@@ -120,7 +124,7 @@ npx shadcn add https://raw.githubusercontent.com/krishnaditya16/nextjs-admin-tem
 | **`admin-shell`** | `components/admin/admin-shell/` | Responsive collapsible sidebar, sticky header with breadcrumbs, KPI stat cards, and dark mode toggle. | [Source Code](https://github.com/krishnaditya16/nextjs-admin-template-registry/tree/main/src/registry/admin/admin-shell) | [`admin-shell.json`](https://github.com/krishnaditya16/nextjs-admin-template-registry/blob/main/public/r/admin-shell.json) |
 | **`data-table`** | `components/admin/data-table/` | Generic TanStack Table v8 engine with sorting, text search filtering, column visibility toggles, and pagination. | [Source Code](https://github.com/krishnaditya16/nextjs-admin-template-registry/tree/main/src/registry/admin/data-table) | [`data-table.json`](https://github.com/krishnaditya16/nextjs-admin-template-registry/blob/main/public/r/data-table.json) |
 | **`auth-guard`** | `components/admin/auth-guard/` | Minimal flat card login and registration forms (shadcn `login-01`), plus user avatar dropdown. | [Source Code](https://github.com/krishnaditya16/nextjs-admin-template-registry/tree/main/src/registry/admin/auth-guard) | [`auth-guard.json`](https://github.com/krishnaditya16/nextjs-admin-template-registry/blob/main/public/r/auth-guard.json) |
-| **`crud-primitives`** | `components/admin/crud-primitives/` | Delete confirmation dialog, discard changes confirmation dialog, modal sheets, and drag-and-drop image upload. | [Source Code](https://github.com/krishnaditya16/nextjs-admin-template-registry/tree/main/src/registry/admin/crud-primitives) | [`crud-primitives.json`](https://github.com/krishnaditya16/nextjs-admin-template-registry/blob/main/public/r/crud-primitives.json) |
+| **`crud-primitives`** | `components/admin/crud-primitives/` | Delete confirmation dialog, discard changes confirmation dialog, and drag-and-drop image upload. | [Source Code](https://github.com/krishnaditya16/nextjs-admin-template-registry/tree/main/src/registry/admin/crud-primitives) | [`crud-primitives.json`](https://github.com/krishnaditya16/nextjs-admin-template-registry/blob/main/public/r/crud-primitives.json) |
 
 ### How It Works Under the Hood
 When you run `npx shadcn add`:
@@ -135,11 +139,12 @@ When you run `npx shadcn add`:
 
 | Route | Description |
 | :--- | :--- |
-| **`/`** | Executive Dashboard featuring KPI stat cards, latest sales table, and quick navigation. |
-| **`/products`** | Product Catalog Data Table with live filtering, status badges, pagination, and row actions. |
-| **`/products/new`** | Add Product form featuring a 2-column layout (matching shadcn `dashboard-07`), image dropzone, and discard confirmation. |
-| **`/products/[id]/edit`** | Edit Product form with pre-populated records and discard guard. |
-| **`/settings`** | Unified Settings Hub with Profile, Security (password reset), and Notifications tabs (shadcn Checkboxes). |
+| **`/`** | Root redirect to `/admin`. |
+| **`/admin`** | Executive Dashboard featuring KPI stat cards, latest sales table, and quick navigation. |
+| **`/admin/products`** | Product Catalog Data Table with live filtering, status badges, pagination, and row actions. |
+| **`/admin/products/new`** | Add Product form featuring a 2-column layout (matching shadcn `dashboard-07`), image dropzone, and discard confirmation via reusable `<ProductForm />`. |
+| **`/admin/products/[id]/edit`** | Edit Product form with pre-populated records and discard guard via the same reusable `<ProductForm />`. |
+| **`/admin/settings`** | Unified Settings Hub with Profile, Security (password reset), and Notifications tabs (shadcn Checkboxes). |
 | **`/login`** | Minimal credentials login screen. |
 | **`/register`** | Account creation screen with full validation states. |
 | **`/placeholder`** | Reusable empty-state screen for modules currently under development. |
@@ -162,20 +167,20 @@ export const defaultNavGroups: NavGroup[] = [
   {
     label: "Overview",
     items: [
-      { title: "Dashboard", url: "/", icon: LayoutDashboard },
+      { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
     ],
   },
   {
     label: "Catalog",
     items: [
-      { title: "Products", url: "/products", icon: Package },
-      { title: "Add Product", url: "/products/new", icon: PlusCircle },
+      { title: "Products", url: "/admin/products", icon: Package },
+      { title: "Add Product", url: "/admin/products/new", icon: PlusCircle },
     ],
   },
   {
     label: "System",
     items: [
-      { title: "Settings", url: "/settings", icon: Settings },
+      { title: "Settings", url: "/admin/settings", icon: Settings },
       { title: "Auth", url: "/login", icon: Lock },
       { title: "Placeholder Menu", url: "/placeholder", icon: Layers, badge: "Soon" },
     ],
@@ -201,14 +206,21 @@ export const defaultNavGroups: NavGroup[] = [
 │       ├── auth-guard.json
 │       └── crud-primitives.json
 ├── src/
-│   ├── app/                       # Next.js App Router demo application
-│   │   ├── (admin)/               # Admin layout & sub-pages
-│   │   ├── products/              # Catalog CRUD pages
-│   │   ├── settings/              # Settings hub
-│   │   ├── login/ & register/     # Auth pages
+│   ├── app/                       # Next.js App Router application
+│   │   ├── admin/                 # Canonical admin portal routes
+│   │   │   ├── layout.tsx         # SidebarProvider & AdminHeader shell
+│   │   │   ├── page.tsx           # Executive Dashboard
+│   │   │   ├── products/          # Products catalog table & CRUD pages
+│   │   │   │   ├── page.tsx       # Products data table
+│   │   │   │   ├── new/page.tsx   # Add product page (ProductForm mode="create")
+│   │   │   │   └── [id]/edit/     # Edit product page (ProductForm mode="edit")
+│   │   │   └── settings/page.tsx  # Admin settings hub
+│   │   ├── login/ & register/     # Full-page auth screens
 │   │   ├── globals.css            # Tailwind v4 theme definitions
+│   │   ├── page.tsx               # Root redirect to /admin
 │   │   └── layout.tsx             # Root layout with ThemeProvider & Sonner
 │   ├── components/
+│   │   ├── admin/products/        # App-specific admin components (e.g. reusable ProductForm)
 │   │   ├── theme-provider.tsx     # next-themes integration wrapper
 │   │   └── ui/                    # Base shadcn primitives (button, dialog, etc.)
 │   ├── lib/
@@ -218,7 +230,7 @@ export const defaultNavGroups: NavGroup[] = [
 │           ├── admin-shell/       # Sidebar, header, breadcrumbs, stat cards
 │           ├── data-table/        # TanStack Table engine components
 │           ├── auth-guard/        # Login form, register form, user dropdown
-│           └── crud-primitives/   # Delete & discard dialogs, form modal, file upload
+│           └── crud-primitives/   # Delete & discard dialogs, file upload
 ├── registry.json                  # Manifest defining registry blocks and dependencies
 └── components.json                # shadcn configuration (base-nova style)
 ```

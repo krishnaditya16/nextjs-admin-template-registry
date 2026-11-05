@@ -13,8 +13,14 @@ Please set up an admin portal in this Next.js project using the registry from ht
 
 ROUTING ARCHITECTURE:
 - Auth Routes: Dedicated login and registration screens at `/login` and `/register` (standalone full-page layouts using `LoginForm` and `RegisterForm` from `@/components/admin/auth-guard/`).
-- Admin Routes Prefix: All admin pages MUST be prefixed with `/admin` (e.g. layout at `app/admin/layout.tsx`, dashboard at `app/admin/page.tsx`, catalog at `app/admin/products/page.tsx`, settings at `app/admin/settings/page.tsx`).
-- Navigation Links: In `AppSidebar`, configure menu item URLs with the `/admin` prefix (e.g. `{ title: "Dashboard", url: "/admin" }`, `{ title: "Products", url: "/admin/products" }`, `{ title: "Settings", url: "/admin/settings" }`).
+- Admin Routes Prefix: All admin pages MUST reside directly inside `app/admin/` (e.g. layout at `app/admin/layout.tsx`, dashboard at `app/admin/page.tsx`, catalog at `app/admin/products/page.tsx`, new product at `app/admin/products/new/page.tsx`, edit product at `app/admin/products/[id]/edit/page.tsx`, settings at `app/admin/settings/page.tsx`).
+- NO DUPLICATE OR TOP-LEVEL CATALOG FOLDERS: DO NOT create a top-level `/products` or duplicate `/settings` folder outside `/admin`. All admin feature pages must live strictly within `app/admin/`.
+- Navigation Links: In `AppSidebar`, configure menu item URLs with the `/admin` prefix (e.g. `{ title: "Dashboard", url: "/admin" }`, `{ title: "Products", url: "/admin/products" }`, `{ title: "Add Product", url: "/admin/products/new" }`, `{ title: "Settings", url: "/admin/settings" }`).
+
+PAGE-BASED CRUD & REUSABLE FORM PATTERN:
+- NO FORM MODALS: Product creation and editing must be full, dedicated pages matching shadcn `dashboard-07` (NOT modal popups/dialogs).
+- Unified Reusable Form: Build a single, reusable `<ProductForm />` component (e.g. in `@/components/admin/products/product-form.tsx`) that accepts props `{ mode: "create" | "edit", initialData?: Product }`. Both `app/admin/products/new/page.tsx` and `app/admin/products/[id]/edit/page.tsx` must consume this identical form.
+- The form should include a 2-column layout, `LocalImageUpload` dropzone, responsive action buttons (header + footer), and `ConfirmDiscardDialog` guarding the discard button when fields are dirty.
 
 SAFEGUARDS (FOR EXISTING PROJECTS):
 - DO NOT overwrite, change, or redesign any existing pages, storefronts, or public routes outside `/admin`, `/login`, and `/register`.
@@ -50,7 +56,7 @@ Follow these steps in order:
 5. CREATE ADMIN LAYOUT (/admin prefix):
    - Create `app/admin/layout.tsx`.
    - Use `SidebarProvider`, `AppSidebar` (from `@/components/admin/admin-shell/app-sidebar`), and `AdminHeader` (from `@/components/admin/admin-shell/admin-header`) with `SidebarInset`.
-   - Configure `defaultNavGroups` in `AppSidebar` with `/admin` prefixed URLs (e.g. `{ title: "Dashboard", url: "/admin" }`, `{ title: "Products", url: "/admin/products" }`, `{ title: "Settings", url: "/admin/settings" }`).
+   - Configure `defaultNavGroups` in `AppSidebar` with `/admin` prefixed URLs (e.g. `{ title: "Dashboard", url: "/admin" }`, `{ title: "Products", url: "/admin/products" }`, `{ title: "Add Product", url: "/admin/products/new" }`, `{ title: "Settings", url: "/admin/settings" }`).
    - Wire `UserNav` in `AdminHeader` to navigate to `/admin/settings` on profile/settings click, and `/login` on logout.
 
 6. CREATE ADMIN PAGES:
@@ -59,7 +65,9 @@ Follow these steps in order:
      - In `PageHeader`, the "+ Add Product" button MUST be a `<Link href="/admin/products/new">` (NOT a modal dialog) styled with `buttonVariants({ size: "sm" })`.
      - Wire up row actions to `ConfirmDeleteDialog` for delete confirmations.
      - Wrap the page export in `<React.Suspense fallback={<div className="min-h-screen bg-background" />}>`.
-   - `app/admin/products/new/page.tsx` — Dedicated 2-column product creation page with `LocalImageUpload` and `ConfirmDiscardDialog`.
+   - `components/admin/products/product-form.tsx` — Reusable 2-column product form supporting both `create` and `edit` modes, complete with `LocalImageUpload` dropzone, sticky actions, and `ConfirmDiscardDialog`.
+   - `app/admin/products/new/page.tsx` — Dedicated create page rendering `<ProductForm mode="create" />`.
+   - `app/admin/products/[id]/edit/page.tsx` — Dedicated edit page rendering `<ProductForm mode="edit" initialData={product} />`.
    - `app/admin/settings/page.tsx` — Settings hub with Profile, Security, and Notifications tabs (using shadcn `Checkbox`).
 
 7. PREVENT NEXT.JS 16 PRERENDER ERRORS:
@@ -92,7 +100,7 @@ NOTE: Do not alter any existing layouts, global CSS, or existing page designs.
 
 ## 🛡️ Prompt 3: CRUD Primitives & Confirmation Dialogs Only
 
-Use this prompt if you only need delete/discard confirmation dialogs, form sheets, and image dropzone uploads:
+Use this prompt if you only need delete/discard confirmation dialogs and image dropzone uploads:
 
 ```text
 Please add the CRUD primitives from https://github.com/krishnaditya16/nextjs-admin-template-registry to this project:
@@ -112,8 +120,10 @@ NOTE: Do not alter any existing layouts, global CSS, or existing page designs.
 
 When finishing any of the above setups, make sure:
 - [ ] Auth pages are accessible at `/login` and `/register`.
-- [ ] Admin portal is accessible under the `/admin` prefix (e.g. `/admin`, `/admin/products`, `/admin/settings`).
+- [ ] Admin portal is accessible under the `/admin` prefix (e.g. `/admin`, `/admin/products`, `/admin/products/new`, `/admin/products/[id]/edit`, `/admin/settings`).
+- [ ] No top-level duplicate `/products` folder outside `/admin`.
 - [ ] "+ Add Product" button on `/admin/products` navigates to `/admin/products/new` page (NOT a modal dialog).
+- [ ] Product creation and edit share the unified reusable `<ProductForm />` component.
 - [ ] No inline `Date.now()`, `new Date()`, or `Math.random()` in mock data; dynamic pages wrapped in `<React.Suspense>`.
 - [ ] Existing non-admin routes, layouts, and public pages remain completely untouched.
 - [ ] `components/admin/` folder contains the installed registry components.

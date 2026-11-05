@@ -20,7 +20,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@/components/admin/*": ["./src/registry/admin/*"]
+      "@/components/admin/*": ["./src/registry/admin/*", "./src/components/admin/*"]
     }
   },
   "include": [

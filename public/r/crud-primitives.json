@@ -2,22 +2,15 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "crud-primitives",
   "title": "CRUD Primitives",
-  "description": "Standardized form modal, delete confirmation dialog, and local image upload component.",
+  "description": "Standardized delete & discard confirmation dialogs, and local image upload component.",
   "dependencies": [
     "lucide-react"
   ],
   "registryDependencies": [
-    "dialog",
     "alert-dialog",
     "button"
   ],
   "files": [
-    {
-      "path": "src/registry/admin/crud-primitives/form-modal.tsx",
-      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport {\n  Dialog,\n  DialogContent,\n  DialogDescription,\n  DialogHeader,\n  DialogTitle,\n} from \"@/components/ui/dialog\"\n\nexport interface FormModalProps {\n  open: boolean\n  onOpenChange: (open: boolean) => void\n  title: string\n  description?: string\n  children: React.ReactNode\n  className?: string\n}\n\nexport function FormModal({\n  open,\n  onOpenChange,\n  title,\n  description,\n  children,\n  className,\n}: FormModalProps) {\n  return (\n    <Dialog open={open} onOpenChange={onOpenChange}>\n      <DialogContent className={cn(\"sm:max-w-lg max-h-[90vh] overflow-y-auto\", className)}>\n        <DialogHeader>\n          <DialogTitle className=\"text-xl font-semibold tracking-tight\">\n            {title}\n          </DialogTitle>\n          {description && (\n            <DialogDescription className=\"text-sm text-muted-foreground\">\n              {description}\n            </DialogDescription>\n          )}\n        </DialogHeader>\n        <div className=\"pt-2\">{children}</div>\n      </DialogContent>\n    </Dialog>\n  )\n}\n",
-      "type": "registry:component",
-      "target": "components/admin/crud-primitives/form-modal.tsx"
-    },
     {
       "path": "src/registry/admin/crud-primitives/confirm-delete-dialog.tsx",
       "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Loader2, Trash2 } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  AlertDialog,\n  AlertDialogContent,\n  AlertDialogDescription,\n  AlertDialogFooter,\n  AlertDialogHeader,\n  AlertDialogTitle,\n} from \"@/components/ui/alert-dialog\"\n\nexport interface ConfirmDeleteDialogProps {\n  open: boolean\n  onOpenChange: (open: boolean) => void\n  title?: string\n  description?: string\n  onConfirm: () => Promise<void> | void\n  isLoading?: boolean\n  confirmText?: string\n  cancelText?: string\n}\n\nexport function ConfirmDeleteDialog({\n  open,\n  onOpenChange,\n  title = \"Are you absolutely sure?\",\n  description = \"This action cannot be undone. This will permanently delete the item and remove its data from our servers.\",\n  onConfirm,\n  isLoading = false,\n  confirmText = \"Delete\",\n  cancelText = \"Cancel\",\n}: ConfirmDeleteDialogProps) {\n  const [internalLoading, setInternalLoading] = React.useState(false)\n  const loading = isLoading || internalLoading\n\n  const handleConfirm = async () => {\n    try {\n      setInternalLoading(true)\n      await onConfirm()\n      onOpenChange(false)\n    } finally {\n      setInternalLoading(false)\n    }\n  }\n\n  return (\n    <AlertDialog open={open} onOpenChange={onOpenChange}>\n      <AlertDialogContent>\n        <AlertDialogHeader>\n          <div className=\"mb-2 flex size-10 items-center justify-center rounded-full bg-destructive/10 text-destructive sm:mx-0\">\n            <Trash2 className=\"size-5\" />\n          </div>\n          <AlertDialogTitle className=\"text-lg font-semibold\">\n            {title}\n          </AlertDialogTitle>\n          <AlertDialogDescription className=\"text-sm text-muted-foreground\">\n            {description}\n          </AlertDialogDescription>\n        </AlertDialogHeader>\n        <AlertDialogFooter className=\"gap-2 sm:gap-2\">\n          <Button\n            type=\"button\"\n            variant=\"outline\"\n            onClick={() => onOpenChange(false)}\n            disabled={loading}\n          >\n            {cancelText}\n          </Button>\n          <Button\n            type=\"button\"\n            variant=\"destructive\"\n            onClick={handleConfirm}\n            disabled={loading}\n            className=\"gap-1.5\"\n          >\n            {loading ? (\n              <Loader2 className=\"size-4 animate-spin\" />\n            ) : (\n              <Trash2 className=\"size-4\" />\n            )}\n            {confirmText}\n          </Button>\n        </AlertDialogFooter>\n      </AlertDialogContent>\n    </AlertDialog>\n  )\n}\n",

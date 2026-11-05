@@ -141,21 +141,15 @@
       "name": "crud-primitives",
       "type": "registry:block",
       "title": "CRUD Primitives",
-      "description": "Standardized form modal, delete confirmation dialog, and local image upload component.",
+      "description": "Standardized delete & discard confirmation dialogs, and local image upload component.",
       "dependencies": [
         "lucide-react"
       ],
       "registryDependencies": [
-        "dialog",
         "alert-dialog",
         "button"
       ],
       "files": [
-        {
-          "path": "src/registry/admin/crud-primitives/form-modal.tsx",
-          "type": "registry:component",
-          "target": "components/admin/crud-primitives/form-modal.tsx"
-        },
         {
           "path": "src/registry/admin/crud-primitives/confirm-delete-dialog.tsx",
           "type": "registry:component",

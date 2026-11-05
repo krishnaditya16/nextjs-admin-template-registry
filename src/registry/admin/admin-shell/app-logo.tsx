@@ -27,7 +27,7 @@ export function AppLogo({
   imageSrc = DEFAULT_LOGO_IMAGE,
   name = DEFAULT_BRAND_NAME,
   description = DEFAULT_BRAND_DESCRIPTION,
-  href = "/",
+  href = "/admin",
   collapsed = false,
   size = "default",
   className,

@@ -52,7 +52,7 @@ export const defaultNavGroups: NavGroup[] = [
     items: [
       {
         title: "Dashboard",
-        href: "/",
+        href: "/admin",
         icon: LayoutDashboard,
       },
     ],
@@ -62,12 +62,12 @@ export const defaultNavGroups: NavGroup[] = [
     items: [
       {
         title: "Products",
-        href: "/products",
+        href: "/admin/products",
         icon: Package,
       },
       {
         title: "Add Product",
-        href: "/products/new",
+        href: "/admin/products/new",
         icon: PlusCircle,
       },
     ],
@@ -77,7 +77,7 @@ export const defaultNavGroups: NavGroup[] = [
     items: [
       {
         title: "Settings",
-        href: "/settings",
+        href: "/admin/settings",
         icon: Settings,
       },
       {

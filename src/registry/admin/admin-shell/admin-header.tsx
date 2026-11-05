@@ -34,15 +34,16 @@ export interface AdminHeaderProps extends React.HTMLAttributes<HTMLElement> {
 
 function generateDefaultBreadcrumbs(pathname: string): AdminBreadcrumbItem[] {
   const segments = pathname.split("/").filter(Boolean)
-  if (segments.length === 0) {
-    return [{ label: "Dashboard", href: "/" }]
+  if (segments.length === 0 || (segments.length === 1 && segments[0] === "admin")) {
+    return [{ label: "Dashboard", href: "/admin" }]
   }
 
-  const items: AdminBreadcrumbItem[] = [{ label: "Dashboard", href: "/" }]
+  const items: AdminBreadcrumbItem[] = [{ label: "Dashboard", href: "/admin" }]
   let accumulatedPath = ""
 
   segments.forEach((seg, idx) => {
     accumulatedPath += `/${seg}`
+    if (seg === "admin") return // Skip 'admin' prefix as root dashboard already represents /admin
     const label = seg.charAt(0).toUpperCase() + seg.slice(1).replace(/-/g, " ")
     const isLast = idx === segments.length - 1
     items.push({

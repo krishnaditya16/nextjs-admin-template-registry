@@ -31,7 +31,7 @@ export default function LoginPage() {
     }
 
     toast.success("Welcome back!")
-    router.push("/")
+    router.push("/admin")
   }
 
   return (
