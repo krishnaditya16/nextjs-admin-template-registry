@@ -94,6 +94,7 @@ If you are using Cursor, Claude, GitHub Copilot, or Antigravity on a new or exis
 > 6. On `app/admin/products/page.tsx`, ensure '+ Add Product' is a link button to `/admin/products/new` (not a modal). Use static strings for mock data (never inline `Date.now()`) and wrap dynamic pages in `<React.Suspense>`."
 
 💡 *For specialized prompts (Full Admin, Data Table only, or CRUD Primitives only), see [`PROMPT.md`](./PROMPT.md).*
+💡 *To scaffold new CRUD modules interactively, use the dedicated workspace skill: `.agents/skills/admin-scaffold-crud/`.*
 
 ---
 
