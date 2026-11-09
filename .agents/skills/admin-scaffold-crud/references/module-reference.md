@@ -120,29 +120,101 @@ export function ModuleForm({ mode, initialData }: { mode: "create" | "edit"; ini
 
 ---
 
-## 3. Data Table Page Pattern (`page.tsx`)
+## 3. Data Table 3-File Architecture
 
+### `columns.tsx` ("use client")
 ```tsx
 "use client"
 
 import * as React from "react"
 import Link from "next/link"
-import { PlusCircle, MoreHorizontal } from "lucide-react"
 import { ColumnDef } from "@tanstack/react-table"
-import { PageHeader } from "@/components/admin/admin-shell/page-header"
+import { DataTableColumnHeader } from "@/components/admin/data-table/data-table-column-header"
+import { DataTableRowActions } from "@/components/admin/data-table/data-table-row-actions"
+import { Badge } from "@/components/ui/badge"
+
+export interface ModuleColumnsOptions {
+  onEdit?: (item: any) => void
+  onDelete: (item: any) => void
+}
+
+export function getModuleColumns({ onEdit, onDelete }: ModuleColumnsOptions): ColumnDef<any>[] {
+  return [
+    // Column definitions
+    {
+      id: "actions",
+      cell: ({ row }) => (
+        <DataTableRowActions
+          onEdit={onEdit ? () => onEdit(row.original) : undefined}
+          onDelete={() => onDelete(row.original)}
+        />
+      ),
+    },
+  ]
+}
+```
+
+### `<module>-client.tsx` ("use client")
+```tsx
+"use client"
+
+import * as React from "react"
+import { useRouter } from "next/navigation"
 import { DataTable } from "@/components/admin/data-table/data-table"
 import { ConfirmDeleteDialog } from "@/components/admin/crud-primitives/confirm-delete-dialog"
-import { buttonVariants, Button } from "@/components/ui/button"
+import { getModuleColumns } from "./columns"
+
+export function ModuleClient() {
+  const router = useRouter()
+  const [items, setItems] = React.useState<any[]>([])
+  const [isDeleteOpen, setIsDeleteOpen] = React.useState(false)
+  const [deletingItem, setDeletingItem] = React.useState<any | null>(null)
+
+  const columns = React.useMemo(
+    () =>
+      getModuleColumns({
+        onEdit: (item) => router.push(`/admin/<module>/${item.id}/edit`),
+        onDelete: (item) => {
+          setDeletingItem(item)
+          setIsDeleteOpen(true)
+        },
+      }),
+    [router]
+  )
+
+  return (
+    <>
+      <DataTable columns={columns} data={items} searchKey="name" />
+      <ConfirmDeleteDialog
+        open={isDeleteOpen}
+        onOpenChange={setIsDeleteOpen}
+        title={deletingItem ? `Delete "${deletingItem.name}"?` : "Delete item?"}
+        onConfirm={async () => {
+          setItems((prev) => prev.filter((i) => i.id !== deletingItem.id))
+          setIsDeleteOpen(false)
+        }}
+      />
+    </>
+  )
+}
+```
+
+### `page.tsx` (Server Component)
+```tsx
+import * as React from "react"
+import type { Metadata } from "next"
+import { ModuleClient } from "./<module>-client"
+
+export const metadata: Metadata = {
+  title: "<Plural Name>",
+  description: "Manage your <module> catalog...",
+}
 
 export default function ModulePage() {
   return (
     <React.Suspense fallback={<div className="min-h-screen bg-background" />}>
-      <ModuleContent />
+      <ModuleClient />
     </React.Suspense>
   )
-}
-
-function ModuleContent() {
-  // Columns definition, delete dialog handling, and DataTable rendering
 }
 ```

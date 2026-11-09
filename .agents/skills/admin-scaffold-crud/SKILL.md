@@ -89,21 +89,22 @@ Create `src/components/admin/<module>/<module>-form.tsx`:
 - Discard button triggers `ConfirmDiscardDialog` if dirty.
 - Submit handler calls `toast.success` and routes to `/admin/<module>`.
 
-### Step 3: Catalog Index Page
-Create `src/app/admin/<module>/page.tsx`:
-- `PageHeader` with title, subtitle, and `+ Add <Module>` link button:
-  ```tsx
-  <Link href="/admin/<module>/new" className={buttonVariants({ size: "sm" })}>
-    <PlusCircle className="mr-2 h-4 w-4" />
-    Add <Module>
-  </Link>
-  ```
-- KPI `StatCard` row (Total items, Active/Completed, etc.).
-- TanStack `columns` definition:
-  - Formatted text/numbers/badges.
-  - Row actions dropdown: "Edit" link to `/admin/<module>/${item.id}/edit` and "Delete" button opening `ConfirmDeleteDialog`.
-- Render `<DataTable columns={columns} data={mockData} searchKey="..." />`.
-- Wrap page in `<React.Suspense>`.
+### Step 3: Catalog Index (3-File Architecture)
+Follow Next.js App Router and shadcn/ui best practices:
+
+1. **`src/app/admin/<module>/columns.tsx`** (`"use client"`):
+   - Export `interface <Module>ColumnsOptions { onEdit?: (item: <Module>Item) => void; onDelete: (item: <Module>Item) => void }`.
+   - Export factory function `get<Module>Columns({ onEdit, onDelete }: <Module>ColumnsOptions): ColumnDef<<Module>Item>[]`.
+   - Include cell formatting, badges, link cells, and `DataTableRowActions`.
+
+2. **`src/app/admin/<module>/<module>-client.tsx`** (`"use client"`):
+   - Export function `<Module>Client()`.
+   - Holds state, metric `StatCard` cards, Delete Confirmation Dialog (`ConfirmDeleteDialog`), and `<DataTable columns={columns} data={items} searchKey="..." />`.
+   - Imports `get<Module>Columns` from `./columns`.
+
+3. **`src/app/admin/<module>/page.tsx`** (Server Component):
+   - Export `metadata: Metadata = { title: "<Plural>", description: "Manage your <module> catalog..." }`.
+   - Default export `Page()` wrapping `<<Module>Client />` inside `<React.Suspense fallback={<div className="min-h-screen bg-background" />}>`.
 
 ### Step 4: Dedicated Create Page
 Create `src/app/admin/<module>/new/page.tsx`:
