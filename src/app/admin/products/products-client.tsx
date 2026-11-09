@@ -30,7 +30,11 @@ import { DataTable } from "@/components/admin/data-table/data-table"
 
 // CRUD Primitives
 import { ConfirmDeleteDialog } from "@/components/admin/crud-primitives/confirm-delete-dialog"
-import { initialProducts, type Product } from "@/data/products-data"
+import {
+  getProductTotalStock,
+  initialProducts,
+  type Product,
+} from "@/data/products-data"
 import { getProductColumns } from "./columns"
 
 export function ProductsClient() {
@@ -59,9 +63,12 @@ export function ProductsClient() {
     setIsDeleteOpen(false)
   }
 
-  const inStockCount = products.filter((p) => p.status === "In Stock").length
-  const lowStockCount = products.filter((p) => p.status === "Low Stock").length
-  const outOfStockCount = products.filter((p) => p.status === "Out of Stock").length
+  const inStockCount = products.filter((p) => getProductTotalStock(p) > 10).length
+  const lowStockCount = products.filter((p) => {
+    const stock = getProductTotalStock(p)
+    return stock > 0 && stock <= 10
+  }).length
+  const outOfStockCount = products.filter((p) => getProductTotalStock(p) === 0).length
 
   const columns = useMemo(
     () =>

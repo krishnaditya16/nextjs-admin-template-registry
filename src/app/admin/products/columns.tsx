@@ -2,11 +2,17 @@
 
 import Link from "next/link"
 import type { ColumnDef } from "@tanstack/react-table"
+import { ImageIcon } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { DataTableColumnHeader } from "@/components/admin/data-table/data-table-column-header"
 import { DataTableRowActions } from "@/components/admin/data-table/data-table-row-actions"
-import type { Product } from "@/data/products-data"
+import {
+  getProductCoverImage,
+  getProductPriceRange,
+  getProductTotalStock,
+  type Product,
+} from "@/data/products-data"
 
 export interface ProductColumnsOptions {
   onEdit?: (p: Product) => void
@@ -19,100 +25,118 @@ export function getProductColumns({
 }: ProductColumnsOptions): ColumnDef<Product>[] {
   return [
     {
-      accessorKey: "id",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="SKU / ID" />
-      ),
-      cell: ({ row }) => (
-        <span className="font-mono text-xs text-muted-foreground">
-          {row.getValue("id")}
-        </span>
-      ),
-    },
-    {
       accessorKey: "name",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Product Name" />
+        <DataTableColumnHeader column={column} title="Product" />
       ),
       cell: ({ row }) => {
         const product = row.original
+        const coverImage = getProductCoverImage(product)
         return (
-          <div className="flex flex-col">
-            <Link
-              href={`/admin/products/${product.id}/edit`}
-              className="font-medium text-foreground hover:underline transition-all"
+          <div className="flex items-center gap-3">
+            <div className="relative size-10 shrink-0 overflow-hidden rounded-md border bg-muted/40">
+              {coverImage ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={coverImage.url}
+                  alt={coverImage.altText || product.name}
+                  className="size-full object-cover"
+                />
+              ) : (
+                <div className="flex size-full items-center justify-center text-muted-foreground">
+                  <ImageIcon className="size-4 opacity-40" />
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col">
+              <Link
+                href={`/admin/products/${product.id}/edit`}
+                className="font-medium text-foreground hover:underline transition-all line-clamp-1"
+              >
+                {product.name}
+              </Link>
+              <span className="font-mono text-xs text-muted-foreground">
+                /{product.slug}
+              </span>
+            </div>
+          </div>
+        )
+      },
+    },
+    {
+      id: "category",
+      accessorFn: (row) => row.category?.name ?? "Uncategorized",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Category" />
+      ),
+      cell: ({ row }) => {
+        const categoryName = row.original.category?.name ?? "Uncategorized"
+        return <span className="text-sm text-muted-foreground">{categoryName}</span>
+      },
+    },
+    {
+      id: "stock",
+      accessorFn: (row) => getProductTotalStock(row),
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Inventory" />
+      ),
+      cell: ({ row }) => {
+        const product = row.original
+        const totalStock = getProductTotalStock(product)
+        const isOutOfStock = totalStock === 0
+
+        return (
+          <div className="flex flex-col gap-0.5">
+            <span
+              className={`tabular-nums font-medium ${
+                isOutOfStock ? "text-destructive font-semibold" : ""
+              }`}
             >
-              {product.name}
-            </Link>
-            <span className="text-xs text-muted-foreground sm:hidden">
-              {product.category}
+              {isOutOfStock ? "Out of Stock" : `${totalStock} units`}
+            </span>
+            <span className="text-xs text-muted-foreground">
+              {product.variants.length} variant
+              {product.variants.length > 1 ? "s" : ""}
             </span>
           </div>
         )
       },
     },
     {
-      accessorKey: "category",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Category" />
-      ),
-    },
-    {
-      accessorKey: "price",
+      id: "price",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Price" />
       ),
       cell: ({ row }) => {
-        const price = parseFloat(row.getValue("price"))
-        const formatted = new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-        }).format(price)
-        return <div className="font-medium tabular-nums">{formatted}</div>
+        const priceRange = getProductPriceRange(row.original)
+        return <div className="font-medium tabular-nums">{priceRange}</div>
       },
     },
     {
-      accessorKey: "stock",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Stock" />
-      ),
-      cell: ({ row }) => {
-        const stock = row.getValue<number>("stock")
-        return <span className="tabular-nums">{stock} units</span>
-      },
-    },
-    {
-      accessorKey: "status",
+      accessorKey: "isActive",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Status" />
       ),
       cell: ({ row }) => {
-        const status = row.getValue<Product["status"]>("status")
-        const variant =
-          status === "In Stock"
-            ? "default"
-            : status === "Low Stock"
-            ? "secondary"
-            : "destructive"
-
+        const isActive = row.getValue<boolean>("isActive")
         return (
-          <Badge variant={variant} className="text-[11px] font-medium">
-            {status}
+          <Badge
+            variant={isActive ? "default" : "secondary"}
+            className="text-[11px] font-medium"
+          >
+            {isActive ? "Active" : "Draft"}
           </Badge>
         )
       },
     },
     {
       id: "actions",
-      cell: ({ row }) => {
-        const product = row.original
-        return (
-          <DataTableRowActions
-            onEdit={onEdit ? () => onEdit(product) : undefined}
-            onDelete={() => onDelete(product)}
-          />
-        )
-      },
+      cell: ({ row }) => (
+        <DataTableRowActions
+          onEdit={onEdit ? () => onEdit(row.original) : undefined}
+          onDelete={onDelete ? () => onDelete(row.original) : undefined}
+        />
+      ),
     },
   ]
 }

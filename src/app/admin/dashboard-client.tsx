@@ -6,6 +6,7 @@ import {
   ArrowRight,
   CreditCard,
   DollarSign,
+  ImageIcon,
   Package,
   Plus,
   ShoppingBag,
@@ -31,16 +32,21 @@ import { PageHeader } from "@/components/admin/admin-shell/page-header"
 import { StatCard } from "@/components/admin/admin-shell/stat-card"
 import { UserNav } from "@/components/admin/auth-guard/user-nav"
 import { DataTable } from "@/components/admin/data-table/data-table"
-import { initialProducts } from "@/data/products-data"
+import {
+  getProductCoverImage,
+  getProductTotalStock,
+  initialProducts,
+} from "@/data/products-data"
 import { recentOrderColumns } from "./columns"
 import { recentOrders } from "@/data/orders-data"
 
 export function DashboardClient() {
   const router = useRouter()
 
-  const lowStockProducts = initialProducts.filter(
-    (p) => p.status === "Low Stock" || p.status === "Out of Stock"
-  )
+  const lowStockProducts = initialProducts.filter((p) => {
+    const total = getProductTotalStock(p)
+    return total <= 10
+  })
 
   return (
     <SidebarProvider>
@@ -159,30 +165,53 @@ export function DashboardClient() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {lowStockProducts.map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex items-center justify-between border-b pb-3 last:border-b-0 last:pb-0"
-                    >
-                      <div className="space-y-0.5">
-                        <Link
-                          href={`/admin/products/${item.id}/edit`}
-                          className="text-sm font-medium hover:underline text-foreground leading-none"
-                        >
-                          {item.name}
-                        </Link>
-                        <div className="text-xs text-muted-foreground">
-                          SKU: {item.id} · {item.stock} left
-                        </div>
-                      </div>
-                      <Badge
-                        variant={item.status === "Low Stock" ? "secondary" : "destructive"}
-                        className="text-[10px] font-medium"
+                  {lowStockProducts.map((item) => {
+                    const totalStock = getProductTotalStock(item)
+                    const isOutOfStock = totalStock === 0
+                    const cover = getProductCoverImage(item)
+
+                    return (
+                      <div
+                        key={item.id}
+                        className="flex items-center justify-between border-b pb-3 last:border-b-0 last:pb-0 gap-3"
                       >
-                        {item.status}
-                      </Badge>
-                    </div>
-                  ))}
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="size-9 shrink-0 overflow-hidden rounded-md border bg-muted/40 relative">
+                            {cover ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img
+                                src={cover.url}
+                                alt={cover.altText || item.name}
+                                className="size-full object-cover"
+                              />
+                            ) : (
+                              <div className="flex size-full items-center justify-center text-muted-foreground">
+                                <ImageIcon className="size-3.5 opacity-40" />
+                              </div>
+                            )}
+                          </div>
+                          <div className="space-y-0.5 min-w-0">
+                            <Link
+                              href={`/admin/products/${item.id}/edit`}
+                              className="text-sm font-medium hover:underline text-foreground leading-none truncate block"
+                            >
+                              {item.name}
+                            </Link>
+                            <div className="text-xs text-muted-foreground">
+                              {item.variants.length} variant
+                              {item.variants.length > 1 ? "s" : ""} · {totalStock} left
+                            </div>
+                          </div>
+                        </div>
+                        <Badge
+                          variant={isOutOfStock ? "destructive" : "secondary"}
+                          className="text-[10px] font-medium shrink-0"
+                        >
+                          {isOutOfStock ? "Out of Stock" : "Low Stock"}
+                        </Badge>
+                      </div>
+                    )
+                  })}
 
                   <div className="pt-2">
                     <Link

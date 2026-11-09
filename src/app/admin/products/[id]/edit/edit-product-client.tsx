@@ -19,11 +19,33 @@ export function EditProductClient({ productId }: { productId: string }) {
       initialProducts.find((p) => p.id === productId) ?? {
         id: productId,
         name: "Sony WH-1000XM5 Wireless Headphones",
-        category: "Electronics",
-        price: 399.99,
-        stock: 42,
-        status: "In Stock" as const,
+        slug: "sony-wh-1000xm5",
+        categoryId: "cat-electronics",
+        category: { id: "cat-electronics", name: "Electronics", slug: "electronics" },
+        isActive: true,
+        createdAt: "2025-01-15T08:00:00Z",
+        updatedAt: "2025-02-01T14:30:00Z",
         description: "Industry-leading noise cancellation with dual processors.",
+        variants: [
+          {
+            id: `var-${productId}-1`,
+            sku: "SNY-WH1000XM5-BLK",
+            size: "Standard",
+            color: "Black",
+            price: 399.99,
+            stock: 42,
+            productId,
+          },
+        ],
+        images: [
+          {
+            id: `img-${productId}-1`,
+            url: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80",
+            altText: "Sony WH-1000XM5 Black Front Profile",
+            order: 0,
+            productId,
+          },
+        ],
       }
     )
   }, [productId])
