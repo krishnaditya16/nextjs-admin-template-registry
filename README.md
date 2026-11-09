@@ -213,7 +213,6 @@ export const defaultNavGroups: NavGroup[] = [
     label: "Sales",
     items: [
       { title: "Orders", href: "#", icon: ShoppingBag, badge: "Soon" },
-      { title: "Customers", href: "#", icon: Users, badge: "Soon" },
     ],
   },
   {
@@ -226,6 +225,7 @@ export const defaultNavGroups: NavGroup[] = [
   {
     label: "System",
     items: [
+      { title: "Users", href: "#", icon: Users, badge: "Soon" },
       { title: "Settings", href: "/admin/settings", icon: Settings },
       { title: "Placeholder Menu", href: "/placeholder", icon: Layers, badge: "Guide" },
     ],

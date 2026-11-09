@@ -85,12 +85,6 @@ export const defaultNavGroups: NavGroup[] = [
         icon: ShoppingBag,
         badge: "Soon",
       },
-      {
-        title: "Customers",
-        href: "#",
-        icon: Users,
-        badge: "Soon",
-      },
     ],
   },
   {
@@ -113,6 +107,12 @@ export const defaultNavGroups: NavGroup[] = [
   {
     label: "System",
     items: [
+      {
+        title: "Users",
+        href: "#",
+        icon: Users,
+        badge: "Soon",
+      },
       {
         title: "Settings",
         href: "/admin/settings",
@@ -185,6 +185,14 @@ export function AppSidebar({
         pathname === "/settings" ||
         pathname === "/profile" ||
         pathname.startsWith("/settings/")
+      )
+    }
+    if (href === "/admin/users" || href === "/users") {
+      return (
+        pathname === "/admin/users" ||
+        pathname.startsWith("/admin/users/") ||
+        pathname === "/users" ||
+        pathname.startsWith("/users/")
       )
     }
     return pathname.startsWith(href)
