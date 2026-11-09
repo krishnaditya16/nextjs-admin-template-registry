@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import { useMemo, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import {
@@ -30,17 +30,17 @@ import { DataTable } from "@/components/admin/data-table/data-table"
 
 // CRUD Primitives
 import { ConfirmDeleteDialog } from "@/components/admin/crud-primitives/confirm-delete-dialog"
-import { initialProducts, type Product } from "@/lib/products-data"
+import { initialProducts, type Product } from "@/data/products-data"
 import { getProductColumns } from "./columns"
 
 export function ProductsClient() {
   const router = useRouter()
-  const [products, setProducts] = React.useState<Product[]>(initialProducts)
+  const [products, setProducts] = useState<Product[]>(initialProducts)
 
   // Delete Dialog state
-  const [isDeleteOpen, setIsDeleteOpen] = React.useState(false)
-  const [deletingProduct, setDeletingProduct] = React.useState<Product | null>(null)
-  const [isDeleting, setIsDeleting] = React.useState(false)
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+  const [deletingProduct, setDeletingProduct] = useState<Product | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const handleOpenDelete = (product: Product) => {
     setDeletingProduct(product)
@@ -63,7 +63,7 @@ export function ProductsClient() {
   const lowStockCount = products.filter((p) => p.status === "Low Stock").length
   const outOfStockCount = products.filter((p) => p.status === "Out of Stock").length
 
-  const columns = React.useMemo(
+  const columns = useMemo(
     () =>
       getProductColumns({
         onEdit: (product) => router.push(`/admin/products/${product.id}/edit`),

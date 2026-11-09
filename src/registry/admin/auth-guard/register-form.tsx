@@ -1,7 +1,8 @@
 "use client"
 
-import * as React from "react"
+import { useState, type ComponentPropsWithoutRef, type FormEvent } from "react"
 import Link from "next/link"
+
 import { Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -16,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export interface RegisterFormProps extends Omit<React.ComponentPropsWithoutRef<"div">, "onSubmit"> {
+export interface RegisterFormProps extends Omit<ComponentPropsWithoutRef<"div">, "onSubmit"> {
   onSubmit?: (data: { name: string; email: string; password: string }) => Promise<void> | void
   error?: string
   title?: string
@@ -35,17 +36,17 @@ export function RegisterForm({
   loginHref = "/login",
   ...props
 }: RegisterFormProps) {
-  const [name, setName] = React.useState("")
-  const [email, setEmail] = React.useState("")
-  const [password, setPassword] = React.useState("")
-  const [confirmPassword, setConfirmPassword] = React.useState("")
-  const [internalLoading, setInternalLoading] = React.useState(false)
-  const [localError, setLocalError] = React.useState<string | null>(null)
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [internalLoading, setInternalLoading] = useState(false)
+  const [localError, setLocalError] = useState<string | null>(null)
 
   const loading = controlledLoading || internalLoading
   const activeError = controlledError ?? localError
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setLocalError(null)
 

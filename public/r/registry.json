@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "admin-ds",
-  "homepage": "http://localhost:3000",
+  "homepage": "https://github.com/krishnaditya16/nextjs-admin-template-registry",
   "items": [
     {
       "name": "admin-shell",
@@ -54,7 +54,17 @@
         {
           "path": "src/registry/admin/admin-shell/admin-layout.tsx",
           "type": "registry:component",
-          "target": "app/(admin)/admin/layout.tsx"
+          "target": "components/admin/admin-shell/admin-layout.tsx"
+        },
+        {
+          "path": "src/components/theme-provider.tsx",
+          "type": "registry:component",
+          "target": "components/theme-provider.tsx"
+        },
+        {
+          "path": "public/logo.svg",
+          "type": "registry:file",
+          "target": "public/logo.svg"
         }
       ]
     },
@@ -106,7 +116,7 @@
       "name": "auth-guard",
       "type": "registry:block",
       "title": "Auth Guard UI",
-      "description": "Credentials login form and user profile navigation dropdown.",
+      "description": "Credentials login form, registration form, and user profile navigation dropdown.",
       "dependencies": [
         "lucide-react"
       ],
@@ -164,6 +174,314 @@
           "path": "src/registry/admin/crud-primitives/local-image-upload.tsx",
           "type": "registry:component",
           "target": "components/admin/crud-primitives/local-image-upload.tsx"
+        }
+      ]
+    },
+    {
+      "name": "products-crud",
+      "type": "registry:block",
+      "title": "Products CRUD Module",
+      "description": "Complete product catalog CRUD with data table, multi-column sorting, search filters, dedicated create and edit pages with reusable 2-column form, and mock inventory data.",
+      "dependencies": [
+        "@tanstack/react-table",
+        "lucide-react",
+        "sonner"
+      ],
+      "registryDependencies": [
+        "badge",
+        "button",
+        "card",
+        "input",
+        "label",
+        "select",
+        "table",
+        "dropdown-menu",
+        "alert-dialog",
+        "sidebar",
+        "breadcrumb",
+        "separator"
+      ],
+      "files": [
+        {
+          "path": "src/data/products-data.ts",
+          "type": "registry:lib",
+          "target": "data/products-data.ts"
+        },
+        {
+          "path": "src/components/admin/products/product-form.tsx",
+          "type": "registry:component",
+          "target": "components/admin/products/product-form.tsx"
+        },
+        {
+          "path": "src/app/admin/products/columns.tsx",
+          "type": "registry:component",
+          "target": "app/admin/products/columns.tsx"
+        },
+        {
+          "path": "src/app/admin/products/products-client.tsx",
+          "type": "registry:component",
+          "target": "app/admin/products/products-client.tsx"
+        },
+        {
+          "path": "src/app/admin/products/page.tsx",
+          "type": "registry:page",
+          "target": "app/admin/products/page.tsx"
+        },
+        {
+          "path": "src/app/admin/products/new/new-product-client.tsx",
+          "type": "registry:component",
+          "target": "app/admin/products/new/new-product-client.tsx"
+        },
+        {
+          "path": "src/app/admin/products/new/page.tsx",
+          "type": "registry:page",
+          "target": "app/admin/products/new/page.tsx"
+        },
+        {
+          "path": "src/app/admin/products/[id]/edit/edit-product-client.tsx",
+          "type": "registry:component",
+          "target": "app/admin/products/[id]/edit/edit-product-client.tsx"
+        },
+        {
+          "path": "src/app/admin/products/[id]/edit/page.tsx",
+          "type": "registry:page",
+          "target": "app/admin/products/[id]/edit/page.tsx"
+        }
+      ]
+    },
+    {
+      "name": "admin-full",
+      "type": "registry:block",
+      "title": "Admin Full Suite",
+      "description": "Complete enterprise admin portal suite with executive dashboard, product CRUD catalog, settings center, credentials authentication, data table engine, and responsive admin shell.",
+      "dependencies": [
+        "@tanstack/react-table",
+        "lucide-react",
+        "next-themes",
+        "sonner"
+      ],
+      "registryDependencies": [
+        "sidebar",
+        "breadcrumb",
+        "separator",
+        "badge",
+        "card",
+        "button",
+        "table",
+        "input",
+        "label",
+        "select",
+        "dropdown-menu",
+        "avatar",
+        "alert-dialog",
+        "tabs",
+        "checkbox"
+      ],
+      "files": [
+        {
+          "path": "src/registry/admin/admin-shell/app-sidebar.tsx",
+          "type": "registry:component",
+          "target": "components/admin/admin-shell/app-sidebar.tsx"
+        },
+        {
+          "path": "src/registry/admin/admin-shell/admin-header.tsx",
+          "type": "registry:component",
+          "target": "components/admin/admin-shell/admin-header.tsx"
+        },
+        {
+          "path": "src/registry/admin/admin-shell/theme-toggle.tsx",
+          "type": "registry:component",
+          "target": "components/admin/admin-shell/theme-toggle.tsx"
+        },
+        {
+          "path": "src/registry/admin/admin-shell/page-header.tsx",
+          "type": "registry:component",
+          "target": "components/admin/admin-shell/page-header.tsx"
+        },
+        {
+          "path": "src/registry/admin/admin-shell/stat-card.tsx",
+          "type": "registry:component",
+          "target": "components/admin/admin-shell/stat-card.tsx"
+        },
+        {
+          "path": "src/registry/admin/admin-shell/app-logo.tsx",
+          "type": "registry:component",
+          "target": "components/admin/admin-shell/app-logo.tsx"
+        },
+        {
+          "path": "src/registry/admin/admin-shell/admin-layout.tsx",
+          "type": "registry:component",
+          "target": "components/admin/admin-shell/admin-layout.tsx"
+        },
+        {
+          "path": "src/components/theme-provider.tsx",
+          "type": "registry:component",
+          "target": "components/theme-provider.tsx"
+        },
+        {
+          "path": "public/logo.svg",
+          "type": "registry:file",
+          "target": "public/logo.svg"
+        },
+        {
+          "path": "src/registry/admin/data-table/data-table.tsx",
+          "type": "registry:component",
+          "target": "components/admin/data-table/data-table.tsx"
+        },
+        {
+          "path": "src/registry/admin/data-table/data-table-toolbar.tsx",
+          "type": "registry:component",
+          "target": "components/admin/data-table/data-table-toolbar.tsx"
+        },
+        {
+          "path": "src/registry/admin/data-table/data-table-column-header.tsx",
+          "type": "registry:component",
+          "target": "components/admin/data-table/data-table-column-header.tsx"
+        },
+        {
+          "path": "src/registry/admin/data-table/data-table-pagination.tsx",
+          "type": "registry:component",
+          "target": "components/admin/data-table/data-table-pagination.tsx"
+        },
+        {
+          "path": "src/registry/admin/data-table/data-table-row-actions.tsx",
+          "type": "registry:component",
+          "target": "components/admin/data-table/data-table-row-actions.tsx"
+        },
+        {
+          "path": "src/registry/admin/auth-guard/login-form.tsx",
+          "type": "registry:component",
+          "target": "components/admin/auth-guard/login-form.tsx"
+        },
+        {
+          "path": "src/registry/admin/auth-guard/register-form.tsx",
+          "type": "registry:component",
+          "target": "components/admin/auth-guard/register-form.tsx"
+        },
+        {
+          "path": "src/registry/admin/auth-guard/user-nav.tsx",
+          "type": "registry:component",
+          "target": "components/admin/auth-guard/user-nav.tsx"
+        },
+        {
+          "path": "src/registry/admin/crud-primitives/confirm-delete-dialog.tsx",
+          "type": "registry:component",
+          "target": "components/admin/crud-primitives/confirm-delete-dialog.tsx"
+        },
+        {
+          "path": "src/registry/admin/crud-primitives/confirm-discard-dialog.tsx",
+          "type": "registry:component",
+          "target": "components/admin/crud-primitives/confirm-discard-dialog.tsx"
+        },
+        {
+          "path": "src/registry/admin/crud-primitives/local-image-upload.tsx",
+          "type": "registry:component",
+          "target": "components/admin/crud-primitives/local-image-upload.tsx"
+        },
+        {
+          "path": "src/data/products-data.ts",
+          "type": "registry:lib",
+          "target": "data/products-data.ts"
+        },
+        {
+          "path": "src/components/admin/products/product-form.tsx",
+          "type": "registry:component",
+          "target": "components/admin/products/product-form.tsx"
+        },
+        {
+          "path": "src/app/admin/products/columns.tsx",
+          "type": "registry:component",
+          "target": "app/admin/products/columns.tsx"
+        },
+        {
+          "path": "src/app/admin/products/products-client.tsx",
+          "type": "registry:component",
+          "target": "app/admin/products/products-client.tsx"
+        },
+        {
+          "path": "src/app/admin/products/page.tsx",
+          "type": "registry:page",
+          "target": "app/admin/products/page.tsx"
+        },
+        {
+          "path": "src/app/admin/products/new/new-product-client.tsx",
+          "type": "registry:component",
+          "target": "app/admin/products/new/new-product-client.tsx"
+        },
+        {
+          "path": "src/app/admin/products/new/page.tsx",
+          "type": "registry:page",
+          "target": "app/admin/products/new/page.tsx"
+        },
+        {
+          "path": "src/app/admin/products/[id]/edit/edit-product-client.tsx",
+          "type": "registry:component",
+          "target": "app/admin/products/[id]/edit/edit-product-client.tsx"
+        },
+        {
+          "path": "src/app/admin/products/[id]/edit/page.tsx",
+          "type": "registry:page",
+          "target": "app/admin/products/[id]/edit/page.tsx"
+        },
+        {
+          "path": "src/app/admin/columns.tsx",
+          "type": "registry:component",
+          "target": "app/admin/columns.tsx"
+        },
+        {
+          "path": "src/data/orders-data.ts",
+          "type": "registry:lib",
+          "target": "data/orders-data.ts"
+        },
+        {
+          "path": "src/app/admin/dashboard-client.tsx",
+          "type": "registry:component",
+          "target": "app/admin/dashboard-client.tsx"
+        },
+        {
+          "path": "src/app/admin/page.tsx",
+          "type": "registry:page",
+          "target": "app/admin/page.tsx"
+        },
+        {
+          "path": "src/app/admin/settings/settings-client.tsx",
+          "type": "registry:component",
+          "target": "app/admin/settings/settings-client.tsx"
+        },
+        {
+          "path": "src/app/admin/settings/page.tsx",
+          "type": "registry:page",
+          "target": "app/admin/settings/page.tsx"
+        },
+        {
+          "path": "src/app/placeholder/placeholder-client.tsx",
+          "type": "registry:component",
+          "target": "app/placeholder/placeholder-client.tsx"
+        },
+        {
+          "path": "src/app/placeholder/page.tsx",
+          "type": "registry:page",
+          "target": "app/placeholder/page.tsx"
+        },
+        {
+          "path": "src/app/login/login-client.tsx",
+          "type": "registry:component",
+          "target": "app/login/login-client.tsx"
+        },
+        {
+          "path": "src/app/login/page.tsx",
+          "type": "registry:page",
+          "target": "app/login/page.tsx"
+        },
+        {
+          "path": "src/app/register/register-client.tsx",
+          "type": "registry:component",
+          "target": "app/register/register-client.tsx"
+        },
+        {
+          "path": "src/app/register/page.tsx",
+          "type": "registry:page",
+          "target": "app/register/page.tsx"
         }
       ]
     }

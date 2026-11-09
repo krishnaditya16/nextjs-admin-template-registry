@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import type { HTMLAttributes } from "react"
 import type { Column } from "@tanstack/react-table"
 import { ArrowDown, ArrowUp, ArrowUpDown, EyeOff } from "lucide-react"
 
@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 export interface DataTableColumnHeaderProps<TData, TValue>
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
   title: string
 }

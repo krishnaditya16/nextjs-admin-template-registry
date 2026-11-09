@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import { useState, type FormEvent } from "react"
 import { useRouter } from "next/navigation"
 import { ChevronLeft, Loader2 } from "lucide-react"
 import { toast } from "sonner"
@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select"
 import { LocalImageUpload } from "@/components/admin/crud-primitives/local-image-upload"
 import { ConfirmDiscardDialog } from "@/components/admin/crud-primitives/confirm-discard-dialog"
-import type { Product } from "@/lib/products-data"
+import type { Product } from "@/data/products-data"
 
 export interface ProductFormData {
   name: string
@@ -65,28 +65,28 @@ export function ProductForm({
   backHref = "/admin/products",
 }: ProductFormProps) {
   const router = useRouter()
-  const [isDiscardOpen, setIsDiscardOpen] = React.useState(false)
+  const [isDiscardOpen, setIsDiscardOpen] = useState(false)
 
   // Form State
-  const [name, setName] = React.useState(initialData?.name ?? "")
-  const [sku, setSku] = React.useState(initialData?.id ?? "PRD-109")
-  const [category, setCategory] = React.useState(initialData?.category ?? "Electronics")
-  const [price, setPrice] = React.useState(
+  const [name, setName] = useState(initialData?.name ?? "")
+  const [sku, setSku] = useState(initialData?.id ?? "PRD-109")
+  const [category, setCategory] = useState(initialData?.category ?? "Electronics")
+  const [price, setPrice] = useState(
     initialData?.price !== undefined ? String(initialData.price) : "299.00"
   )
-  const [stock, setStock] = React.useState(
+  const [stock, setStock] = useState(
     initialData?.stock !== undefined ? String(initialData.stock) : "50"
   )
-  const [status, setStatus] = React.useState<string>(initialData?.status ?? "In Stock")
-  const [description, setDescription] = React.useState(initialData?.description ?? "")
-  const [imageFile, setImageFile] = React.useState<File | null>(null)
+  const [status, setStatus] = useState<string>(initialData?.status ?? "In Stock")
+  const [description, setDescription] = useState(initialData?.description ?? "")
+  const [imageFile, setImageFile] = useState<File | null>(null)
 
   const handleDiscard = () => {
     toast.info("Changes discarded")
     router.push(backHref)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
     if (!name.trim()) {

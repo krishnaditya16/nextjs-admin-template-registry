@@ -1,13 +1,12 @@
 "use client"
 
-import * as React from "react"
 import Link from "next/link"
 import type { ColumnDef } from "@tanstack/react-table"
 
 import { Badge } from "@/components/ui/badge"
 import { DataTableColumnHeader } from "@/components/admin/data-table/data-table-column-header"
 import { DataTableRowActions } from "@/components/admin/data-table/data-table-row-actions"
-import type { Product } from "@/lib/products-data"
+import type { Product } from "@/data/products-data"
 
 export interface ProductColumnsOptions {
   onEdit?: (p: Product) => void

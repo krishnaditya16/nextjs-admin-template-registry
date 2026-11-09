@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import type { HTMLAttributes } from "react"
 import Link from "next/link"
 
 import { cn } from "@/lib/utils"
@@ -14,7 +14,7 @@ export const DEFAULT_LOGO_IMAGE = "/logo.svg"
 export const DEFAULT_BRAND_NAME = "Admin Portal"
 export const DEFAULT_BRAND_DESCRIPTION = "Design System Registry"
 
-export interface AppLogoProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface AppLogoProps extends HTMLAttributes<HTMLDivElement> {
   imageSrc?: string
   name?: string
   description?: string

@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import type { ReactNode } from "react"
 import type { Column, Table } from "@tanstack/react-table"
 import { SlidersHorizontal, X } from "lucide-react"
 
@@ -20,7 +20,7 @@ export interface DataTableToolbarProps<TData> {
   table: Table<TData>
   searchKey?: string
   searchPlaceholder?: string
-  toolbarActions?: React.ReactNode
+  toolbarActions?: ReactNode
 }
 
 export function DataTableToolbar<TData>({

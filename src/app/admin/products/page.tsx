@@ -1,4 +1,4 @@
-import * as React from "react"
+import { Suspense } from "react"
 import type { Metadata } from "next"
 
 import { ProductsClient } from "./products-client"
@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 export default function ProductsPage() {
   return (
-    <React.Suspense fallback={<div className="min-h-screen bg-background" />}>
+    <Suspense fallback={<div className="min-h-screen bg-background" />}>
       <ProductsClient />
-    </React.Suspense>
+    </Suspense>
   )
 }

@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import { useRouter } from "next/navigation"
 import { LogOut, Settings, User as UserIcon } from "lucide-react"
 

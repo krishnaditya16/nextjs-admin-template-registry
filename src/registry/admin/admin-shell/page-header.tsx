@@ -1,10 +1,10 @@
-import * as React from "react"
+import type { HTMLAttributes, ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
-export interface PageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface PageHeaderProps extends HTMLAttributes<HTMLDivElement> {
   title: string
   description?: string
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export function PageHeader({

@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import { useState, type ReactNode } from "react"
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -22,6 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { cn } from "@/lib/utils"
 import { DataTableToolbar } from "@/components/admin/data-table/data-table-toolbar"
 import { DataTablePagination } from "@/components/admin/data-table/data-table-pagination"
 
@@ -30,7 +31,11 @@ export interface DataTableProps<TData, TValue> {
   data: TData[]
   searchKey?: string
   searchPlaceholder?: string
-  toolbarActions?: React.ReactNode
+  toolbarActions?: ReactNode
+  hideToolbar?: boolean
+  hidePagination?: boolean
+  borderless?: boolean
+  className?: string
 }
 
 export function DataTable<TData, TValue>({
@@ -39,12 +44,17 @@ export function DataTable<TData, TValue>({
   searchKey,
   searchPlaceholder,
   toolbarActions,
+  hideToolbar = false,
+  hidePagination = false,
+  borderless = false,
+  className,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = useState({})
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
@@ -66,14 +76,20 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="space-y-4">
-      <DataTableToolbar
-        table={table}
-        searchKey={searchKey}
-        searchPlaceholder={searchPlaceholder}
-        toolbarActions={toolbarActions}
-      />
-      <div className="rounded-md border bg-card">
+    <div className={cn("space-y-4", className)}>
+      {!hideToolbar && (
+        <DataTableToolbar
+          table={table}
+          searchKey={searchKey}
+          searchPlaceholder={searchPlaceholder}
+          toolbarActions={toolbarActions}
+        />
+      )}
+      <div
+        className={cn(
+          borderless ? "overflow-hidden" : "rounded-md border bg-card"
+        )}
+      >
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -123,7 +139,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      {!hidePagination && <DataTablePagination table={table} />}
     </div>
   )
 }

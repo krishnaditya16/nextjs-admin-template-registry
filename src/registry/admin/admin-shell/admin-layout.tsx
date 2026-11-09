@@ -1,11 +1,11 @@
-import * as React from "react"
+import type { ReactNode } from "react"
 
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/admin/admin-shell/app-sidebar"
 import { AdminHeader } from "@/components/admin/admin-shell/admin-header"
 
 export interface AdminLayoutProps {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {

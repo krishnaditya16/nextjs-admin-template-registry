@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import { Fragment, type HTMLAttributes, type ReactNode } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Bell } from "lucide-react"
@@ -23,10 +23,10 @@ export interface AdminBreadcrumbItem {
   href?: string
 }
 
-export interface AdminHeaderProps extends React.HTMLAttributes<HTMLElement> {
+export interface AdminHeaderProps extends HTMLAttributes<HTMLElement> {
   breadcrumbs?: AdminBreadcrumbItem[]
-  actions?: React.ReactNode
-  userNav?: React.ReactNode
+  actions?: ReactNode
+  userNav?: ReactNode
   notificationsCount?: number
   onNotificationsClick?: () => void
   showThemeToggle?: boolean
@@ -85,7 +85,7 @@ export function AdminHeader({
             {activeBreadcrumbs.map((crumb, idx) => {
               const isLast = idx === activeBreadcrumbs.length - 1
               return (
-                <React.Fragment key={`${crumb.label}-${idx}`}>
+                <Fragment key={`${crumb.label}-${idx}`}>
                   <BreadcrumbItem>
                     {isLast || !crumb.href ? (
                       <BreadcrumbPage>
@@ -96,7 +96,7 @@ export function AdminHeader({
                     )}
                   </BreadcrumbItem>
                   {!isLast && <BreadcrumbSeparator />}
-                </React.Fragment>
+                </Fragment>
               )
             })}
           </BreadcrumbList>

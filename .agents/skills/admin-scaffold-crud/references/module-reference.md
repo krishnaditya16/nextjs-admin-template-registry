@@ -47,7 +47,7 @@ export const mockCustomers: CustomerItem[] = [
 ```tsx
 "use client"
 
-import * as React from "react"
+import { useState, type FormEvent } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { ChevronLeft } from "lucide-react"
@@ -60,10 +60,10 @@ import { ConfirmDiscardDialog } from "@/components/admin/crud-primitives/confirm
 
 export function ModuleForm({ mode, initialData }: { mode: "create" | "edit"; initialData?: any }) {
   const router = useRouter()
-  const [isDirty, setIsDirty] = React.useState(false)
-  const [formData, setFormData] = React.useState(initialData || { name: "", status: "Active" })
+  const [isDirty, setIsDirty] = useState(false)
+  const [formData, setFormData] = useState(initialData || { name: "", status: "Active" })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     toast.success(mode === "create" ? "Item created successfully" : "Item updated successfully")
     router.push("/admin/<module>")
@@ -126,7 +126,6 @@ export function ModuleForm({ mode, initialData }: { mode: "create" | "edit"; ini
 ```tsx
 "use client"
 
-import * as React from "react"
 import Link from "next/link"
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "@/components/admin/data-table/data-table-column-header"
@@ -158,7 +157,7 @@ export function getModuleColumns({ onEdit, onDelete }: ModuleColumnsOptions): Co
 ```tsx
 "use client"
 
-import * as React from "react"
+import { useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { DataTable } from "@/components/admin/data-table/data-table"
 import { ConfirmDeleteDialog } from "@/components/admin/crud-primitives/confirm-delete-dialog"
@@ -166,11 +165,11 @@ import { getModuleColumns } from "./columns"
 
 export function ModuleClient() {
   const router = useRouter()
-  const [items, setItems] = React.useState<any[]>([])
-  const [isDeleteOpen, setIsDeleteOpen] = React.useState(false)
-  const [deletingItem, setDeletingItem] = React.useState<any | null>(null)
+  const [items, setItems] = useState<any[]>([])
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+  const [deletingItem, setDeletingItem] = useState<any | null>(null)
 
-  const columns = React.useMemo(
+  const columns = useMemo(
     () =>
       getModuleColumns({
         onEdit: (item) => router.push(`/admin/<module>/${item.id}/edit`),
@@ -201,7 +200,7 @@ export function ModuleClient() {
 
 ### `page.tsx` (Server Component)
 ```tsx
-import * as React from "react"
+import { Suspense } from "react"
 import type { Metadata } from "next"
 import { ModuleClient } from "./<module>-client"
 
@@ -212,9 +211,9 @@ export const metadata: Metadata = {
 
 export default function ModulePage() {
   return (
-    <React.Suspense fallback={<div className="min-h-screen bg-background" />}>
+    <Suspense fallback={<div className="min-h-screen bg-background" />}>
       <ModuleClient />
-    </React.Suspense>
+    </Suspense>
   )
 }
 ```

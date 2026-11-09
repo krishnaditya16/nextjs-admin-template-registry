@@ -1,6 +1,13 @@
 "use client"
 
-import * as React from "react"
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type DragEvent,
+  type MouseEvent,
+} from "react"
 import { AlertCircle, Image as ImageIcon, Trash2, UploadCloud } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -25,14 +32,14 @@ export function LocalImageUpload({
   className,
   disabled = false,
 }: LocalImageUploadProps) {
-  const [dragActive, setDragActive] = React.useState(false)
-  const [error, setError] = React.useState<string | null>(null)
-  const [previewUrl, setPreviewUrl] = React.useState<string | null>(null)
-  const inputRef = React.useRef<HTMLInputElement | null>(null)
-  const activeUrlRef = React.useRef<string | null>(null)
+  const [dragActive, setDragActive] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const activeUrlRef = useRef<string | null>(null)
 
   // Clean up object URLs on unmount
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (activeUrlRef.current) {
         URL.revokeObjectURL(activeUrlRef.current)
@@ -84,14 +91,14 @@ export function LocalImageUpload({
     }
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       handleFile(file)
     }
   }
 
-  const handleDrag = (e: React.DragEvent) => {
+  const handleDrag = (e: DragEvent) => {
     e.preventDefault()
     e.stopPropagation()
     if (disabled) return
@@ -103,7 +110,7 @@ export function LocalImageUpload({
     }
   }
 
-  const handleDrop = (e: React.DragEvent) => {
+  const handleDrop = (e: DragEvent) => {
     e.preventDefault()
     e.stopPropagation()
     setDragActive(false)
@@ -115,7 +122,7 @@ export function LocalImageUpload({
     }
   }
 
-  const handleRemove = (e: React.MouseEvent) => {
+  const handleRemove = (e: MouseEvent) => {
     e.stopPropagation()
     setError(null)
     if (activeUrlRef.current) {

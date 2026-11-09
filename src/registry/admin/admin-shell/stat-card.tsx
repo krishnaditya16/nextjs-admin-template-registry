@@ -1,4 +1,4 @@
-import * as React from "react"
+import type { HTMLAttributes } from "react"
 import { TrendingDown, TrendingUp, type LucideIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-export interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface StatCardProps extends HTMLAttributes<HTMLDivElement> {
   title: string
   value: string | number
   description?: string

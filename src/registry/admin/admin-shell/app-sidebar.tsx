@@ -1,15 +1,18 @@
 "use client"
 
-import * as React from "react"
+import { useMemo, type ComponentProps, type ReactNode } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
+  FileText,
+  FolderTree,
   Layers,
   LayoutDashboard,
-  Lock,
   Package,
-  PlusCircle,
   Settings,
+  ShoppingBag,
+  Star,
+  Users,
   type LucideIcon,
 } from "lucide-react"
 
@@ -66,9 +69,44 @@ export const defaultNavGroups: NavGroup[] = [
         icon: Package,
       },
       {
-        title: "Add Product",
-        href: "/admin/products/new",
-        icon: PlusCircle,
+        title: "Categories",
+        href: "#",
+        icon: FolderTree,
+        badge: "Soon",
+      },
+    ],
+  },
+  {
+    label: "Sales",
+    items: [
+      {
+        title: "Orders",
+        href: "#",
+        icon: ShoppingBag,
+        badge: "Soon",
+      },
+      {
+        title: "Customers",
+        href: "#",
+        icon: Users,
+        badge: "Soon",
+      },
+    ],
+  },
+  {
+    label: "Content",
+    items: [
+      {
+        title: "Articles",
+        href: "#",
+        icon: FileText,
+        badge: "Soon",
+      },
+      {
+        title: "Reviews",
+        href: "#",
+        icon: Star,
+        badge: "Soon",
       },
     ],
   },
@@ -81,15 +119,10 @@ export const defaultNavGroups: NavGroup[] = [
         icon: Settings,
       },
       {
-        title: "Auth",
-        href: "/login",
-        icon: Lock,
-      },
-      {
         title: "Placeholder Menu",
         href: "/placeholder",
         icon: Layers,
-        badge: "Soon",
+        badge: "Guide",
       },
     ],
   },
@@ -98,7 +131,7 @@ export const defaultNavGroups: NavGroup[] = [
 // Flattened fallback for backwards compatibility
 export const defaultNavItems: NavItem[] = defaultNavGroups.flatMap((g) => g.items)
 
-export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+export interface AppSidebarProps extends ComponentProps<typeof Sidebar> {
   navGroups?: NavGroup[]
   navItems?: NavItem[]
   brand?: {
@@ -106,7 +139,7 @@ export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
     imageSrc?: string
     description?: string
   }
-  footerContent?: React.ReactNode
+  footerContent?: ReactNode
 }
 
 export function AppSidebar({
@@ -121,7 +154,7 @@ export function AppSidebar({
   const pathname = usePathname()
 
   // Resolve groups: prioritize navGroups, fallback to navItems wrapped in a single group, or defaultNavGroups
-  const resolvedGroups: NavGroup[] = React.useMemo(() => {
+  const resolvedGroups: NavGroup[] = useMemo(() => {
     if (navGroups && navGroups.length > 0) return navGroups
     if (navItems && navItems.length > 0) {
       return [{ label: "Navigation", items: navItems }]
@@ -130,19 +163,25 @@ export function AppSidebar({
   }, [navGroups, navItems])
 
   const isItemActive = (href: string) => {
+    if (href === "#" || href.startsWith("#") || href.startsWith("/#")) {
+      return false
+    }
     if (href === "/" || href === "/admin") {
       return pathname === "/" || pathname === "/admin"
     }
-    if (href.startsWith("/#")) return false
     if (pathname === href) return true
-    if (href === "/products") {
+    if (href === "/admin/products" || href === "/products") {
       return (
+        pathname === "/admin/products" ||
+        pathname.startsWith("/admin/products/") ||
         pathname === "/products" ||
-        (pathname.startsWith("/products/") && pathname !== "/products/new")
+        pathname.startsWith("/products/")
       )
     }
-    if (href === "/settings") {
+    if (href === "/admin/settings" || href === "/settings") {
       return (
+        pathname === "/admin/settings" ||
+        pathname.startsWith("/admin/settings/") ||
         pathname === "/settings" ||
         pathname === "/profile" ||
         pathname.startsWith("/settings/")

@@ -28,11 +28,14 @@ This skill guides the agent through scaffolding a complete, production-ready CRU
    - Uses TanStack `DataTable` from `@/components/admin/data-table/data-table`.
    - Search filter bar, column visibility dropdown, pagination.
    - Row actions dropdown with Edit (`/admin/<module>/[id]/edit`) and Delete (guarded by `ConfirmDeleteDialog`).
-   - Wrap the index page export in `<React.Suspense>`.
-5. **Prerender Safety (Next.js 16)**:
+   - Wrap the index page export in `<Suspense>`.
+5. **Clean Direct React Imports**:
+   - Always import specific React members directly (e.g. `import { useState, useMemo, Suspense } from "react"`).
+   - **NEVER** use `import * as React from "react"`.
+6. **Prerender Safety (Next.js 16)**:
    - In mock data, use static dates and strings (e.g. `createdAt: "2025-01-15T00:00:00Z"`).
    - **NEVER** evaluate `Date.now()`, `new Date()`, or `Math.random()` in initial renders or mock arrays.
-6. **Sidebar Navigation**:
+7. **Sidebar Navigation**:
    - Register the new module into `defaultNavGroups` in `src/registry/admin/admin-shell/app-sidebar.tsx`.
 
 ---
@@ -104,7 +107,7 @@ Follow Next.js App Router and shadcn/ui best practices:
 
 3. **`src/app/admin/<module>/page.tsx`** (Server Component):
    - Export `metadata: Metadata = { title: "<Plural>", description: "Manage your <module> catalog..." }`.
-   - Default export `Page()` wrapping `<<Module>Client />` inside `<React.Suspense fallback={<div className="min-h-screen bg-background" />}>`.
+   - Default export `Page()` wrapping `<<Module>Client />` inside `<Suspense fallback={<div className="min-h-screen bg-background" />}>`.
 
 ### Step 4: Dedicated Create Page
 Create `src/app/admin/<module>/new/page.tsx`:
